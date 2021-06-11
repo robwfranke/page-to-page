@@ -6,7 +6,11 @@ import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+      <Router>
+          <AuthContextProvider>
+              <App/>
+          </AuthContextProvider>
+      </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
