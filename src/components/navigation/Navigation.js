@@ -1,9 +1,17 @@
 import React, {useContext, useState} from 'react';
 import {NavLink, useHistory} from "react-router-dom";
 import styles from "./Navigation.module.css"
-
+import {AuthContext} from "../context/AuthContext";
 
 function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin}) {
+
+
+    const history = useHistory();
+    const alles = useContext(AuthContext);
+
+    console.log("alles: ", alles)
+
+    console.log("NAVIGATIONPAGE")
 
 
     return (

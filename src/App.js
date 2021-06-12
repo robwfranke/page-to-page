@@ -1,3 +1,5 @@
+import React, {useContext, useState} from 'react';
+
 import './App.css';
 import {Route, Switch, Redirect} from 'react-router-dom';
 import Home from './pages/Home';
@@ -8,9 +10,12 @@ import Registration from "./pages/Registration";
 import Admin1 from "./pages/Admin1";
 import CompanyUser from "./pages/CompanyUser";
 import Customer from "./pages/Customer";
+import {AuthContext} from "./components/context/AuthContext";
 
 
 function App() {
+    const {role} = useContext(AuthContext);
+    console.log("Navigation, role uit authcontext: ", role)
 
 
   return (

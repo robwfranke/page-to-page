@@ -7,6 +7,8 @@ export const AuthContext = createContext({});
 
 function AuthContextProvider({children}) {
 
+    console.log("J<HGSDJDHJGVD")
+
     const history = useHistory();
 
     // **************************************************************
@@ -23,89 +25,91 @@ function AuthContextProvider({children}) {
 
     // ***************************  VOOR TESTEN *********************
     //customer1 passwrd customer
+    // ***************************************************************
 
+    //
+    // // ***************************  fetchUserData *********************
+    // async function fetchUserData(jwtToken) {
+    //     const userId = "customer1"
+    //
+    //     const response = await axios.get(`http://localhost:8080/users/name/${userId}`, {
+    //
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             Authorization: `Bearer ${jwtToken}`,
+    //         }
+    //     })
+    //
+    //     try {
+    //
+    //
+    //     } catch (e) {
+    //
+    //
+    //     }
+    //
+    // }
 
     // ***************************************************************
 
-
-    async function fetchUserData(jwtToken) {
-
-
-        const response = await axios.get(`http://localhost:8080/users/name/${userId}`, {
-
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${jwtToken}`,
-            }
-        })
-
-
-        try {
-
-
-        } catch (e) {
-
-
-        }
-
-    }
-
-
-    useEffect(()=>{
+    //
+    // // ***************************  useEffect *********************
+    useEffect(() => {
 
         console.log("AuthContext, start useEffect")
         const jwtToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjdXN0b21lcjEiLCJleHAiOjE2MjQzNTY2MTQsImlhdCI6MTYyMzQ5MjYxNH0.Zbca8I4HBSFavseH-CbTbGs4c_L_mZRY8JqWy_dFYFE"
-        const userId = "customer1"
+
 
         if (jwtToken !== null && authState.user === null) {
 
-            fetchUserData(jwtToken);
+            // fetchUserData(jwtToken);
 
-        }else{
+        } else {
 
             console.log("geen token")
 
             setAuthState({
                 user: null,
                 status: 'done',
-                role:"empty"
+                role: "empty"
 
             });
 
 
         }
 
-    },[])
+    }, [])
+    // // ***************************************************************
 
+    //
+    // *************************** loginFunction *********************
+    async function loginFunction(jwtToken) {
 
+        jwtToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjdXN0b21lcjEiLCJleHAiOjE2MjQzNTY2MTQsImlhdCI6MTYyMzQ5MjYxNH0.Zbca8I4HBSFavseH-CbTbGs4c_L_mZRY8JqWy_dFYFE"
+
+        console.log("AuthContext, start loginFunction")
+
+        // /jwt token in de local storage
+        localStorage.setItem('token', jwtToken);
+
+        // gebruikersdata ophalen
+        // fetchUserData(jwtToken);
+
+        console.log("AuthContext, net loginFunction uitgevoerd")
+
+    }
 
     // ***************************************************************
-async function loginFunction(jwtToken){
 
-     jwtToken = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjdXN0b21lcjEiLCJleHAiOjE2MjQzNTY2MTQsImlhdCI6MTYyMzQ5MjYxNH0.Zbca8I4HBSFavseH-CbTbGs4c_L_mZRY8JqWy_dFYFE"
-
-    console.log("AuthContext, start loginFunction")
-
-    // /jwt token in de local storage
-    localStorage.setItem('token', jwtToken);
-
-    // gebruikersdata ophalen
-    fetchUserData(jwtToken);
-
-    console.log("AuthContext, net loginFunction uitgevoerd")
-
-}
-    // ***************************************************************
-
-
+    // *************************** const dat *********************
     const data = {
         ...authState,
         login: loginFunction,
         // logout: logoutFunction,
     }
+    // ***************************************************************
 
-
-
+    // *************************** RETURN *********************
     // geef const data mee aan de <AuthContext.Provider>
     return (
 
@@ -117,13 +121,10 @@ async function loginFunction(jwtToken){
             }
         </AuthContext.Provider>
     );
-
-
-
-
-
-
+    // ***************************************************************
 
 
 //    end of AuthContextProvider
 }
+
+export default AuthContextProvider;
