@@ -3,24 +3,60 @@ import React,{useState,useContext,useEffect} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import {useForm} from 'react-hook-form';
 import axios from "axios";
-
-
 import {AuthContext} from "../components/context/AuthContext";
 
 
+
+
 function Login() {
-    const history = useHistory();
     const {login} = useContext(AuthContext);
-    console.log("{login}: ", login)
+    const {role}=useContext(AuthContext);
+    const {handleSubmit, register} = useForm();
+    const [error, setError] = useState("");
+    const[opgehaald,setOpgehaald]=useState(false)
+    const history = useHistory();
 
 
-    console.log("Op Login page")
+    async function onSubmit(data){
+        console.log("Login Page, data:  ",data)  ;
 
-async function onSubmit(data){
+        try{
+            console.log("data:  ",data)
+            console.log("userNameInput:  ",data.userNameInput)
+            console.log("data.password:  ",data.password)
 
-        console.log("Login Page onSubmit, data:  ")  ;
 
-        login();
+            const dataJwt={
+                username:data.userNameInput,
+                password: data.password
+            }
+
+
+
+            const response = await axios.post("http://localhost:8080/authenticate", dataJwt);
+            console.log("result jwt =", response)
+            console.log("result.status", response.status)
+            console.log(response.config)
+            console.log("jwt", response.data.jwt)
+            //hier wordt functie login uit AuthContext aangeroepen.
+            // vervolgens wordt de accesToken uit de response  gehaald, waardoor de login functie kan starten in AuthContext
+            login(response.data.jwt);
+
+            console.log("Login klaar met login(response.data.jwt)")
+            setOpgehaald(true)
+            // toggleLogInSucces(true);
+            // history.push("/navigation")
+
+
+
+        }catch (error) {
+            // console.log("response status",response);
+            console.log("foutje, user niet aanwezig")
+            setError("Er is iets mis gegaan met het ophalen");
+            console.error(error);
+        }
+
+
 
 
 
@@ -29,33 +65,51 @@ async function onSubmit(data){
 
 
 
-    //
-    // console.log("Verlaten login na 4 sec, naar customer")
-    // setTimeout(() => {
-    //     history.push("/customer")
-    // }, 4000);
+
 
     return (
 
         <>
-        <section>
+
             <h1>Login pagina</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.  eaque earum fugiat ipsum iure laboriosam odit perspiciatis provident quam quasi qui reprehenderit ullam vero. Consequatur ipsum magnam maiores modi nam praesentium quia? Adipisci corporis et illum minus, porro quae recusandae. Ab accusantium architecto autem deleniti dolor dolorem ea earum, error esse laborum minus molestias nam neque nisi numquam porro quasi quidem quis quo repellendus sit unde voluptas. Animi consequuntur dicta error expedita iusto officiis perspiciatis reiciendis ut voluptatum.</p>
-        </section>
-
-            <button
-                onClick={onSubmit}
-                type="submit"
-                className="form-button"
-            >
-                Inloggen
-            </button>
-
-
-</>
 
 
 
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <label htmlFor="username-field">
+                    Username:
+                    <input
+                        type="text"
+                        id="username-field"
+                        name="userName"
+                        {...register("userNameInput")}
+                    />
+                </label>
+
+                <label htmlFor="password-field">
+                    Wachtwoord:
+                    <input
+                        type="password"
+                        id="password-field"
+                        name="password"
+                        {...register("password")}
+                    />
+                </label>
+                <button
+                    type="submit"
+                    className="form-button"
+                >
+                    Inloggen
+                </button>
+            </form>
+
+            {opgehaald && <span>data opgehaald ${role}</span>}
+
+
+
+            <p>Heb je nog geen account? <Link to="/registration">Registreer</Link> je dan eerst.</p>
+
+        </>
     );
 }
 
