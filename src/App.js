@@ -7,6 +7,7 @@ import Logout from "./pages/Logout";
 import Registration from "./pages/Registration";
 import Admin1 from "./pages/Admin1";
 import CompanyUser from "./pages/CompanyUser";
+import Customer from "./pages/Customer";
 
 
 function App() {
@@ -44,6 +45,11 @@ function App() {
 
            <Route exact path="/companyUser">
                <CompanyUser/>
+           </Route>
+
+
+           <Route exact path="/customer">
+               <Customer/>
            </Route>
 
 

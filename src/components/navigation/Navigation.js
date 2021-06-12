@@ -45,6 +45,9 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin}) {
 
 
 
+                    <li>
+                        <NavLink to="/customer" activeClassName={styles["active-link"]}>Customer</NavLink>
+                    </li>
 
                 </ul>
 

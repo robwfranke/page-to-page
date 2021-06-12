@@ -1,6 +1,15 @@
 import React,{useState,useContext,useEffect} from 'react';
+import {Link, useHistory} from 'react-router-dom';
 
 function Login() {
+    const history = useHistory();
+
+
+    console.log("Verlaten login na 4 sec, naar customer")
+    setTimeout(() => {
+        history.push("/customer")
+    }, 4000);
+
     return (
         <section>
             <h1>Login pagina</h1>
