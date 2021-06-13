@@ -6,6 +6,11 @@ import {AuthContext} from "../context/AuthContext";
 function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin}) {
 
 
+    console.log("Navigation.js, ADMIN: ", isAuthAdmin)
+    console.log("Navigation.js, COMPANY_USER: ", isAuthUser)
+    console.log("Navigation.js, CUSTOMER: ", isAuthCustomer)
+
+
     const history = useHistory();
     const alles = useContext(AuthContext);
 
@@ -18,6 +23,12 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin}) {
         <nav>
             <div className={styles["nav-container"]}>
 
+                <li>
+                    {(isAuthCustomer === true) && <div> customer true</div>}
+
+
+                </li>
+
                 <ul>
 
 
@@ -26,9 +37,12 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin}) {
                         <NavLink to="/" activeClassName={styles["active-link"]}>Home Page</NavLink>
                     </li>
 
+
+                    {/*{((isAuthCustomer === false) && (isAuthUser === false) && (isAuthAdmin === false)) &&*/}
                     <li>
                         <NavLink to="/login" activeClassName={styles["active-link"]}>Login</NavLink>
                     </li>
+                    {/*}*/}
 
 
                     <li>

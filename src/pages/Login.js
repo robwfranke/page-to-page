@@ -44,8 +44,12 @@ function Login() {
 
             console.log("Login klaar met login(response.data.jwt)")
             setOpgehaald(true)
-            // toggleLogInSucces(true);
-            // history.push("/navigation")
+
+
+            setTimeout(() => {
+                console.log("even wachten", role)
+                // history.push("/")
+            }, 3000);
 
 
 

@@ -17,10 +17,32 @@ function App() {
     const {role} = useContext(AuthContext);
     console.log("Navigation, role uit authcontext: ", role)
 
+    let isAuthCustomer = false;
+    let isAuthUser = false;
+    let isAuthAdmin = false;
+
+    if (role == "ADMIN") {
+        isAuthAdmin = true
+    }
+    if (role == "COMPANY_USER") {
+        isAuthUser = true
+    }
+    if (role == "CUSTOMER") {
+        isAuthCustomer = true
+    }
+
+    console.log("APP.js, ADMIN: ", isAuthAdmin)
+    console.log("APP.js, COMPANY_USER: ", isAuthUser)
+    console.log("APP.js, CUSTOMER: ", isAuthCustomer)
+
 
   return (
      <div>
-         <Navigation/>
+         <Navigation
+             isAuthCustomer={isAuthCustomer}
+             isAuthUser={isAuthUser}
+             isAuthAdmin={isAuthAdmin}
+         />
 
 
        <Switch>
@@ -48,12 +70,12 @@ function App() {
                <Admin1/>
            </Route>
 
-           <Route exact path="/companyUser">
+           <Route exact path="/companyUser" >
                <CompanyUser/>
            </Route>
 
 
-           <Route exact path="/customer">
+           <Route exact path="/customer" >
                <Customer/>
            </Route>
 
