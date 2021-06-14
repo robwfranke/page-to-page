@@ -17,6 +17,11 @@ function Login() {
     const history = useHistory();
 
     console.log("LOGINPAGE, role:",role)
+    if ((role==="ADMIN" || role==="COMPANY_USER" || role === "CUSTOMER")){
+
+            history.push("/")
+
+    }
 
 
     async function onSubmit(data){
@@ -77,7 +82,10 @@ function Login() {
 
         <>
 
+
+
             <h1>Login pagina</h1>
+
 
 
 

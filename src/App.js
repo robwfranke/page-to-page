@@ -16,6 +16,7 @@ import {AuthContext} from "./components/context/AuthContext";
 function App() {
     const history = useHistory();
 
+
     const {role} = useContext(AuthContext);
     console.log("Navigation, role uit authcontext: ", role)
 
@@ -25,13 +26,17 @@ function App() {
 
     if (role == "ADMIN") {
         isAuthAdmin = true
+
     }
     if (role == "COMPANY_USER") {
         isAuthUser = true
     }
     if (role == "CUSTOMER") {
         isAuthCustomer = true
+
     }
+
+
 
 
 
@@ -41,7 +46,7 @@ function App() {
     if((isAuthCustomer === false) && (isAuthUser === false) && (isAuthAdmin === false)){
         history.push("/")
     }
-    // history.push("/")
+
 
 
   return (
@@ -50,6 +55,7 @@ function App() {
              isAuthCustomer={isAuthCustomer}
              isAuthUser={isAuthUser}
              isAuthAdmin={isAuthAdmin}
+
          />
 
 
