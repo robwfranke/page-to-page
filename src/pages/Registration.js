@@ -1,7 +1,10 @@
-import React, {useState, useContext, useEffect} from 'react';
-import {useHistory} from "react-router-dom";
+import React,{useState,useContext,useEffect} from 'react';
+import {AuthContext} from "../components/context/AuthContext";
+import {Link, useHistory} from 'react-router-dom';
+
 
 function Registration() {
+    const {role}=useContext(AuthContext);
     const history = useHistory();
 
 

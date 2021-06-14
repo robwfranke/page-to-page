@@ -1,6 +1,26 @@
-import React from 'react';
+import React,{useState,useContext,useEffect} from 'react';
+import {AuthContext} from "../components/context/AuthContext";
+import {Link, useHistory} from 'react-router-dom';
+
+
+
 
 function Admin1() {
+    const {role}=useContext(AuthContext);
+    const history = useHistory();
+
+    if ((role==="COMPANY_USER" || role === "CUSTOMER")){
+
+        history.push("/")
+
+    }
+
+
+
+
+
+
+
     return (
         <section>
             <h1>Admin pagina</h1>

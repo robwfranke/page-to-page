@@ -46,19 +46,32 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin, loggedIn}) {
                     {/*</li>*/}
 
 
+                    {((isAuthAdmin === true)) &&
+
                     <li>
                         <NavLink to="/admin1" activeClassName={styles["active-link"]}>Admin</NavLink>
                     </li>
+                    }
 
 
+
+
+                    {( (isAuthUser === true) || (isAuthAdmin === true)) &&
                     <li>
                         <NavLink to="/companyUser" activeClassName={styles["active-link"]}>CompanyUser</NavLink>
                     </li>
+                    }
+
+
+                    {((isAuthCustomer === true||isAuthUser===true||isAuthAdmin===true)) &&
 
 
                     <li>
                         <NavLink to="/customer" activeClassName={styles["active-link"]}>Customer</NavLink>
                     </li>
+
+
+                    }
 
                     {((isAuthCustomer === true) || (isAuthUser === true) || (isAuthAdmin === true)) &&
                     <li>
