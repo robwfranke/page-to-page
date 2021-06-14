@@ -21,22 +21,22 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin, loggedIn}) {
     return (
         <nav>
             <div className={styles["nav-container"]}>
-                {(isAuthAdmin === true) && <div> Admin true</div>}
-                {(isAuthUser === true) && <div> User true</div>}
-                {(isAuthCustomer === true) && <div> customer true</div>}
+                {/*{(isAuthAdmin === true) && <div> Admin true</div>}*/}
+                {/*{(isAuthUser === true) && <div> User true</div>}*/}
+                {/*{(isAuthCustomer === true) && <div> customer true</div>}*/}
                 <ul>
 
 
 
                     <li>
 
-                        <NavLink to="/" exact activeClassName={styles["active-link"]}>Home Page</NavLink>
+                        <NavLink to="/home" exact activeClassName={styles["active-link"]}>Home Page</NavLink>
                     </li>
 
 
                     {((isAuthCustomer === false) && (isAuthUser === false) && (isAuthAdmin === false)) &&
                     <li>
-                        <NavLink to="/login" activeClassName={styles["active-link"]}>Login</NavLink>
+                        <NavLink to="/login" exact activeClassName={styles["active-link"]}>Login</NavLink>
                     </li>
                     }
 
@@ -49,7 +49,7 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin, loggedIn}) {
                     {((isAuthAdmin === true)) &&
 
                     <li>
-                        <NavLink to="/admin1" activeClassName={styles["active-link"]}>Admin</NavLink>
+                        <NavLink to="/admin1" exact activeClassName={styles["active-link"]}>Admin</NavLink>
                     </li>
                     }
 
@@ -58,24 +58,31 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin, loggedIn}) {
 
                     {( (isAuthUser === true) || (isAuthAdmin === true)) &&
                     <li>
-                        <NavLink to="/companyUser" activeClassName={styles["active-link"]}>CompanyUser</NavLink>
+                        <NavLink to="/companyUser" exact activeClassName={styles["active-link"]}>CompanyUser</NavLink>
                     </li>
                     }
 
 
                     {((isAuthCustomer === true||isAuthUser===true||isAuthAdmin===true)) &&
-
-
                     <li>
-                        <NavLink to="/customer" activeClassName={styles["active-link"]}>Customer</NavLink>
+                        <NavLink to="/customer" exact activeClassName={styles["active-link"]}>Customer</NavLink>
                     </li>
-
-
                     }
+
+
+                    {/*/!*{((isAuthCustomer === true||isAuthUser===true||isAuthAdmin===true)) &&*!/*/}
+                    {/*<li>*/}
+                    {/*    <NavLink to="/customerOrder" exact activeClassName={styles["active-link"]}>CustomerOrder</NavLink>*/}
+                    {/*</li>*/}
+
+
+
+
+
 
                     {((isAuthCustomer === true) || (isAuthUser === true) || (isAuthAdmin === true)) &&
                     <li>
-                        <NavLink to="/logout" activeClassName={styles["active-link"]}>Logout</NavLink>
+                        <NavLink to="/logout" exact activeClassName={styles["active-link"]}>Logout</NavLink>
                     </li>
                     }
 

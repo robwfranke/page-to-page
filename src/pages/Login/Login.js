@@ -3,7 +3,7 @@ import React,{useState,useContext,useEffect} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import {useForm} from 'react-hook-form';
 import axios from "axios";
-import {AuthContext} from "../components/context/AuthContext";
+import {AuthContext} from "../../components/context/AuthContext";
 
 
 

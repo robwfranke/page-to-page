@@ -2,14 +2,15 @@ import React, {useContext, useState} from 'react';
 
 import './App.css';
 import {Route, Switch, Redirect,useHistory} from 'react-router-dom';
-import Home from './pages/Home';
+import Home from './pages/Home/Home';
 import Navigation from "./components/navigation/Navigation";
-import Login from "./pages/Login"
+import Login from "./pages/Login/Login"
 import Logout from "./pages/Logout";
-import Registration from "./pages/Registration";
-import Admin1 from "./pages/Admin1";
-import CompanyUser from "./pages/CompanyUser";
-import Customer from "./pages/Customer";
+import Registration from "./pages/Registration/Registration";
+import Admin from "./pages/Admin/Admin";
+import CompanyUser from "./pages/CompanyUser/CompanyUser";
+import Customer from "./pages/Customer/Customer";
+import CustomerOrder from "./pages/Customer/CustomerOrder";
 import {AuthContext} from "./components/context/AuthContext";
 
 
@@ -81,7 +82,7 @@ function App() {
            </Route>
 
            <Route exact path="/admin1">
-               <Admin1/>
+               <Admin/>
            </Route>
 
            <Route exact path="/companyUser" >
@@ -91,6 +92,12 @@ function App() {
 
            <Route exact path="/customer" >
                <Customer/>
+           </Route>
+
+
+           <Route exact path="/customerOrder" >
+               <CustomerOrder/>
+
            </Route>
 
 
