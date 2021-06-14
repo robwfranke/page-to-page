@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 
 import './App.css';
-import {Route, Switch, Redirect} from 'react-router-dom';
+import {Route, Switch, Redirect,useHistory} from 'react-router-dom';
 import Home from './pages/Home';
 import Navigation from "./components/navigation/Navigation";
 import Login from "./pages/Login"
@@ -14,6 +14,8 @@ import {AuthContext} from "./components/context/AuthContext";
 
 
 function App() {
+    const history = useHistory();
+
     const {role} = useContext(AuthContext);
     console.log("Navigation, role uit authcontext: ", role)
 
@@ -31,9 +33,15 @@ function App() {
         isAuthCustomer = true
     }
 
+
+
     console.log("APP.js, ADMIN: ", isAuthAdmin)
     console.log("APP.js, COMPANY_USER: ", isAuthUser)
     console.log("APP.js, CUSTOMER: ", isAuthCustomer)
+    if((isAuthCustomer === false) && (isAuthUser === false) && (isAuthAdmin === false)){
+        history.push("/")
+    }
+    // history.push("/")
 
 
   return (

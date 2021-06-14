@@ -16,6 +16,8 @@ function Login() {
     const[opgehaald,setOpgehaald]=useState(false)
     const history = useHistory();
 
+    console.log("LOGINPAGE, role:",role)
+
 
     async function onSubmit(data){
         console.log("Login Page, data:  ",data)  ;
@@ -47,8 +49,8 @@ function Login() {
 
 
             setTimeout(() => {
-                console.log("even wachten", role)
-                // history.push("/")
+                console.log("Switchen naar homePage")
+                             history.push("/")
             }, 3000);
 
 
@@ -107,8 +109,9 @@ function Login() {
                 </button>
             </form>
 
-            {opgehaald && <span>data opgehaald ${role}</span>}
-
+            {opgehaald &&
+                <h1>Ingelogd!! Nu naar homepage!</h1>
+            }
 
 
             <p>Heb je nog geen account? <Link to="/registration">Registreer</Link> je dan eerst.</p>

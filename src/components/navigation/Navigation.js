@@ -14,20 +14,21 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin}) {
     const history = useHistory();
     const alles = useContext(AuthContext);
 
-    console.log("alles: ", alles)
 
-    console.log("NAVIGATIONPAGE")
+
+    console.log("NAVIGATIONPAGE ")
 
 
     return (
         <nav>
             <div className={styles["nav-container"]}>
 
-                <li>
+
+                    {(isAuthAdmin === true) && <div> Admin true</div>}
+                    {(isAuthUser === true) && <div> User true</div>}
                     {(isAuthCustomer === true) && <div> customer true</div>}
 
 
-                </li>
 
                 <ul>
 
@@ -38,21 +39,19 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin}) {
                     </li>
 
 
-                    {/*{((isAuthCustomer === false) && (isAuthUser === false) && (isAuthAdmin === false)) &&*/}
+                    {((isAuthCustomer === false) && (isAuthUser === false) && (isAuthAdmin === false)) &&
                     <li>
                         <NavLink to="/login" activeClassName={styles["active-link"]}>Login</NavLink>
                     </li>
-                    {/*}*/}
+                    }
 
 
-                    <li>
-                        <NavLink to="/logout" activeClassName={styles["active-link"]}>Logout</NavLink>
-                    </li>
 
 
-                    <li>
-                        <NavLink to="/registration" activeClassName={styles["active-link"]}>Registration</NavLink>
-                    </li>
+
+                    {/*<li>*/}
+                    {/*    <NavLink to="/registration" activeClassName={styles["active-link"]}>Registration</NavLink>*/}
+                    {/*</li>*/}
 
 
 
@@ -70,6 +69,12 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin}) {
                     <li>
                         <NavLink to="/customer" activeClassName={styles["active-link"]}>Customer</NavLink>
                     </li>
+
+
+                    <li>
+                        <NavLink to="/logout" activeClassName={styles["active-link"]}>Logout</NavLink>
+                    </li>
+
 
                 </ul>
 
