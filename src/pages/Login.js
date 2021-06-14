@@ -17,11 +17,19 @@ function Login() {
     const history = useHistory();
 
     console.log("LOGINPAGE, role:",role)
-    if ((role==="ADMIN" || role==="COMPANY_USER" || role === "CUSTOMER")){
-
-            history.push("/")
-
+    if ((role==="ADMIN")){
+            history.push("/admin1")
     }
+
+    if (role==="COMPANY_USER"){
+        history.push("/companyUser")
+    }
+
+
+    if (role === "CUSTOMER"){
+        history.push("/customer")
+    }
+
 
 
     async function onSubmit(data){
@@ -52,11 +60,11 @@ function Login() {
             console.log("Login klaar met login(response.data.jwt)")
             setOpgehaald(true)
 
-
-            setTimeout(() => {
-                console.log("Switchen naar homePage")
-                             history.push("/")
-            }, 3000);
+            //
+            // setTimeout(() => {
+            //     console.log("Switchen naar homePage")
+            //                  history.push("/home")
+            // }, 3000);
 
 
 

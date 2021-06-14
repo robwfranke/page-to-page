@@ -10,7 +10,7 @@ setLoggedIn=(false);
 
 
     const history = useHistory();
-    history.push("/home")
+    history.push("/")
     window.location.reload();
     return null;
 }

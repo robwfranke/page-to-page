@@ -7,11 +7,11 @@ function Customer() {
 
     const {role}=useContext(AuthContext);
     const history = useHistory();
-
-    if ((role !== "CUSTOMER")){
-
-        history.push("/")
-    }
+    //
+    // if ((role !== "CUSTOMER" )){
+    //
+    //     history.push("/")
+    // }
 
 
 

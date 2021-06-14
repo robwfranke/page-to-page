@@ -9,7 +9,6 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin, loggedIn}) {
     console.log("Navigation.js, ADMIN: ", isAuthAdmin)
     console.log("Navigation.js, COMPANY_USER: ", isAuthUser)
     console.log("Navigation.js, CUSTOMER: ", isAuthCustomer)
-    console.log("Navigation.js, LoggedIn: ", loggedIn)
 
 
     const history = useHistory();
@@ -28,9 +27,10 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin, loggedIn}) {
                 <ul>
 
 
+
                     <li>
 
-                        <NavLink to="/" activeClassName={styles["active-link"]}>Home Page</NavLink>
+                        <NavLink to="/" exact activeClassName={styles["active-link"]}>Home Page</NavLink>
                     </li>
 
 
