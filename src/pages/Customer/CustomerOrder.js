@@ -65,7 +65,7 @@ const [changeOrder,setChangeOrder]=useState(false);
 
 
 
-                {/*<>*/}
+                <>
 
 
 
@@ -90,16 +90,28 @@ const [changeOrder,setChangeOrder]=useState(false);
                         </label>
 
 
+                            <select
+                                {...register("selectname", )}
+                            >
+                                <option value="grapefruit">Grapefruit</option>
+                                <option value="lime">Lime</option>
+                                <option selected value="coconut">Coconut</option>
+                                <option value="mango">Mango</option>
+                            </select>
 
 
 
 
-
-                        <button
+                            <button
                             type="submit"
                         >
                             Wijzig!
                         </button>
+
+
+
+
+
                         </fieldset>
                     </form>
                     }
@@ -114,7 +126,7 @@ const [changeOrder,setChangeOrder]=useState(false);
 
 
 
-                {/*</>*/}
+                </>
 
 
 
