@@ -23,9 +23,12 @@ function Customer() {
 
     useEffect(()=>{
 
-        console.log("AAAAAAAAAAAAAAAAAAAAAAAA")
+        fetchData(token)
 
     },[]);
+
+
+
 
     async function fetchData(jwtToken) {
 

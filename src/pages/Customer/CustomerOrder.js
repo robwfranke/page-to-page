@@ -1,18 +1,39 @@
-import React from 'react';
-import {Link, useParams, useLocation} from "react-router-dom";
-import {AuthContext} from "../../components/context/AuthContext";
+import React, {useState} from 'react';
+import {useLocation} from "react-router-dom";
+import {useForm} from 'react-hook-form';
+import styles from "../Registration/Registration.module.css";
 
 function CustomerOrder() {
 
+    const {register, handleSubmit, formState: {errors}} = useForm();
+
     const location = useLocation();
     const orderIndividual = location.state.order
+    const oudeNaam = "Jan";
+    const nieuweNaam="Klaas"
+
+
+
+
     console.log("orderIndividual: ", orderIndividual)
 
 
     console.log("Op CustomerOrder")
 
+const [changeOrder,setChangeOrder]=useState(false);
 
-    const {idURL} = useParams();
+    function StartChange(){
+
+        setChangeOrder(true);
+        console.log("setChangeOrder true")
+    }
+    async function onSubmit(data) {
+
+        console.log("data ", data)
+        setChangeOrder(false)
+
+    }
+
 
 
     return (
@@ -21,6 +42,8 @@ function CustomerOrder() {
             <h1>CustomerOrder pagina</h1>
             <h2>{orderIndividual.ordername}</h2>
             <h3>status:  {orderIndividual.status}</h3>
+
+
 
 
             <ul>
@@ -33,16 +56,82 @@ function CustomerOrder() {
                 })}
             </ul>
 
-            {/*<ul>*/}
-            {/*    {orderIndividual.items.jobsFromItem.map((job) => {*/}
-            {/*        return <li key={job.id}><span>itemname: </span>{job.jobname}*/}
-            {/*        </li>*/}
-            {/*    })}*/}
-            {/*</ul>*/}
+            <button
+                type="text"
+                onClick={StartChange}
+            >
+                Wijzig order
+            </button>
+
+
+
+                {/*<>*/}
+
+
+
+                    {changeOrder &&
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <fieldset className={styles["registration-container"]}>
+
+
+                        <label htmlFor="username-field">
+                            OrderNaam:
+                            <input
+                                type="text"
+                                defaultValue={orderIndividual.ordername}
+
+                                // placeholder={oudeNaam}
+                                {...register("ordername", {required: true})}
+                            />
+                            {errors.username && (
+                                <span >Vul uw username in</span>
+
+                            )}
+                        </label>
+
+
+
+
+
+
+
+                        <button
+                            type="submit"
+                        >
+                            Wijzig!
+                        </button>
+                        </fieldset>
+                    </form>
+                    }
+
+
+
+
+
+
+
+
+
+
+
+                {/*</>*/}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         </section>
     );
-}
+};
 
 export default CustomerOrder;
