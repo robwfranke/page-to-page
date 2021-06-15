@@ -1,12 +1,15 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState,useEffect} from 'react';
 import axios from "axios";
 import {NavLink} from "react-router-dom";
 import {AuthContext} from "../../components/context/AuthContext";
+import {set} from "react-hook-form";
 
 function Customer() {
 
     const [orders, setOrders] = useState([]);
     const [error, setError] = useState(false);
+    const [message,setMessage]=useState("");
+
     const {user}=useContext(AuthContext);
 
 
@@ -18,6 +21,11 @@ function Customer() {
         fetchData(token)
     }
 
+    useEffect(()=>{
+
+        console.log("AAAAAAAAAAAAAAAAAAAAAAAA")
+
+    },[]);
 
     async function fetchData(jwtToken) {
 
@@ -37,21 +45,13 @@ function Customer() {
             // const testArray= response.data.
             console.log(response.data.length)
 
-            // if (response.data.length=0){
-            //
-            //     console.log("lengte =0")
-            //     setError(true)
-            // }
-
-            // const piet = response.data
-            // console.log("piet: ", piet)
-            //
-            // const jaap = response.data[0].ordername;
-            // console.log("jaap: ", jaap)
             setOrders(response.data)
 
 
         } catch (e) {
+            console.log("ik ben kapot")
+            setError(true);
+            setMessage("Er is iets fout gegaan bij het ophalen")
 
 
         }
@@ -85,7 +85,6 @@ function Customer() {
 
 
                             </NavLink>
-
 
 
                             {/* **************************************************************** */}

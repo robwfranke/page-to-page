@@ -21,9 +21,7 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin, loggedIn}) {
     return (
         <nav>
             <div className={styles["nav-container"]}>
-                {/*{(isAuthAdmin === true) && <div> Admin true</div>}*/}
-                {/*{(isAuthUser === true) && <div> User true</div>}*/}
-                {/*{(isAuthCustomer === true) && <div> customer true</div>}*/}
+
                 <ul>
 
 
@@ -56,24 +54,19 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin, loggedIn}) {
 
 
 
-                    {( (isAuthUser === true) || (isAuthAdmin === true)) &&
+                    {( (isAuthUser === true) ) &&
                     <li>
                         <NavLink to="/companyUser" exact activeClassName={styles["active-link"]}>CompanyUser</NavLink>
                     </li>
                     }
 
 
-                    {((isAuthCustomer === true||isAuthUser===true||isAuthAdmin===true)) &&
+                    {((isAuthCustomer === true)) &&
                     <li>
                         <NavLink to="/customer" exact activeClassName={styles["active-link"]}>Customer</NavLink>
                     </li>
                     }
 
-
-                    {/*/!*{((isAuthCustomer === true||isAuthUser===true||isAuthAdmin===true)) &&*!/*/}
-                    {/*<li>*/}
-                    {/*    <NavLink to="/customerOrder" exact activeClassName={styles["active-link"]}>CustomerOrder</NavLink>*/}
-                    {/*</li>*/}
 
 
 

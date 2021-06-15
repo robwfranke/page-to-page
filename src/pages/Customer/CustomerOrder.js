@@ -20,6 +20,7 @@ function CustomerOrder() {
         <section>
             <h1>CustomerOrder pagina</h1>
             <h2>{orderIndividual.ordername}</h2>
+            <h3>status:  {orderIndividual.status}</h3>
 
 
             <ul>
