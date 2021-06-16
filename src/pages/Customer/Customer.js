@@ -25,7 +25,7 @@ function Customer() {
 
         fetchData(token)
 
-    },[]);
+    },[orders]);
 
 
 

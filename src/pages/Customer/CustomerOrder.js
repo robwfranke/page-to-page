@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useLocation} from "react-router-dom";
+import {useLocation,useHistory} from "react-router-dom";
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
 
@@ -8,6 +8,7 @@ import styles from "../Customer/Customer.module.css";
 function CustomerOrder() {
 
     const {register, handleSubmit, formState: {errors}} = useForm();
+    const history = useHistory();
 
     const location = useLocation();
     const orderIndividual = location.state.order
@@ -28,6 +29,7 @@ function CustomerOrder() {
             console.log("data ", data)
             putStatus(data);
             setChangeStatus(false)
+            history.push("/customer")
 
 
         }
@@ -54,6 +56,7 @@ function CustomerOrder() {
                     Authorization: `Bearer ${token}`, /*BACK TICK!!!!!*/
                 }
             })
+
 
 
         } catch (e) {
