@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import {useLocation} from "react-router-dom";
 import {useForm} from 'react-hook-form';
-import styles from "../Registration/Registration.module.css";
+import axios from 'axios';
+
+import styles from "../Customer/Customer.module.css";
 
 function CustomerOrder() {
 
@@ -9,31 +11,58 @@ function CustomerOrder() {
 
     const location = useLocation();
     const orderIndividual = location.state.order
-    const oudeNaam = "Jan";
-    const nieuweNaam="Klaas"
+    const token = localStorage.getItem('token');
 
+    const [changeStatus, setChangeStatus] = useState(false);
 
+    function StartChange() {
 
-
-    console.log("orderIndividual: ", orderIndividual)
-
-
-    console.log("Op CustomerOrder")
-
-const [changeOrder,setChangeOrder]=useState(false);
-
-    function StartChange(){
-
-        setChangeOrder(true);
+        setChangeStatus(true);
         console.log("setChangeOrder true")
     }
+
     async function onSubmit(data) {
 
-        console.log("data ", data)
-        setChangeOrder(false)
+
+        if (changeStatus === true) {
+            console.log("data ", data)
+            putStatus(data);
+            setChangeStatus(false)
+
+
+        }
+
 
     }
 
+    async function putStatus(data) {
+        //
+        // console.log("AAAAAAAAAAAAAAAAAAAAAA  ordername: ",orderIndividual.ordername)
+        // console.log("AAAAAAAAAAAAAAAAAAAAAA  status: ",data.status)
+        // console.log("AAAAAAAAAAAAAAAAAAAAAA token: ",token)
+        const dataPut = {
+            ordername: orderIndividual.ordername,
+            status: data.status
+        };
+
+
+        try {
+            console.log("PutStatus")
+            const response = await axios.put(`http://localhost:8080/orders/update/${orderIndividual.ordername}`, dataPut, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`, /*BACK TICK!!!!!*/
+                }
+            })
+
+
+        } catch (e) {
+            console.log("PutStatus fout gegaan")
+
+        }
+
+
+    }
 
 
     return (
@@ -41,17 +70,15 @@ const [changeOrder,setChangeOrder]=useState(false);
         <section>
             <h1>CustomerOrder pagina</h1>
             <h2>{orderIndividual.ordername}</h2>
-            <h3>status:  {orderIndividual.status}</h3>
-
-
+            <h3>status: {orderIndividual.status}</h3>
 
 
             <ul>
                 {orderIndividual.items.map((item) => {
                     return <li key={item.id}>
-                        <div>Naam:   {item.itemname} </div>
-                        <div>Quantity:   {item.quantity} </div>
-                        <div>jobs:   {item.jobsFromItem.length} </div>
+                        <div>Naam: {item.itemname} </div>
+                        <div>Quantity: {item.quantity} </div>
+                        <div>jobs: {item.jobsFromItem.length} </div>
                     </li>
                 })}
             </ul>
@@ -60,86 +87,56 @@ const [changeOrder,setChangeOrder]=useState(false);
                 type="text"
                 onClick={StartChange}
             >
-                Wijzig order
+                Wijzig status
             </button>
 
 
-
-                <>
-
+            <>
 
 
-                    {changeOrder &&
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <fieldset className={styles["registration-container"]}>
+                {changeStatus &&
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <fieldset className={styles["registration-container"]}>
 
 
-                        <label htmlFor="username-field">
-                            OrderNaam:
-                            <input
-                                type="text"
-                                defaultValue={orderIndividual.ordername}
+                        {/*<label htmlFor="username-field">*/}
+                        {/*    OrderNaam:*/}
+                        {/*    <input*/}
+                        {/*        type="text"*/}
+                        {/*        // defaultValue={orderIndividual.ordername}*/}
 
-                                // placeholder={oudeNaam}
-                                {...register("ordername", {required: true})}
-                            />
-                            {errors.username && (
-                                <span >Vul uw username in</span>
+                        {/*        placeholder=""*/}
+                        {/*        {...register("ordername", {required: true})}*/}
+                        {/*    />*/}
+                        {/*    /!*{errors.username && (*!/*/}
+                        {/*    /!*    <span >Vul uw username in</span>*!/*/}
 
-                            )}
-                        </label>
+                        {/*    /!*)}*!/*/}
+                        {/*</label>*/}
 
-
-                            <select
-                                {...register("selectname", )}
-                            >
-                                <option value="grapefruit">Grapefruit</option>
-                                <option value="lime">Lime</option>
-                                <option selected value="coconut">Coconut</option>
-                                <option value="mango">Mango</option>
-                            </select>
-
+                        <p>Status</p>
+                        <select
+                            {...register("status",)}
+                        >
+                            <option value="open">open</option>
+                            <option value="pending">pending</option>
+                            <option value="finished">finished</option>
+                        </select>
 
 
-
-                            <button
+                        <button
                             type="submit"
                         >
                             Wijzig!
                         </button>
 
 
+                    </fieldset>
+                </form>
+                }
 
 
-
-                        </fieldset>
-                    </form>
-                    }
-
-
-
-
-
-
-
-
-
-
-
-                </>
-
-
-
-
-
-
-
-
-
-
-
-
-
+            </>
 
 
         </section>

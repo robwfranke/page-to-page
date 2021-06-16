@@ -84,11 +84,11 @@ function Customer() {
 
                                 }
                             >
-                                <span>ordernummer:</span> {order.ordername} <span>Text: {order.description}</span>
-
+                                <p>ordernaam:<span>{order.ordername}</span></p>
 
                             </NavLink>
-
+                            <p>Omschrijving:<span>{order.description}</span> </p>
+                            <p>Status:<span>{order.status}</span> </p>
 
                             {/* **************************************************************** */}
                             {/*per order mappen over de items (altijd minimaal 1 aanwezig*/}
