@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,Component} from 'react';
 import {useLocation, useHistory, NavLink} from "react-router-dom";
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
@@ -22,24 +22,25 @@ function CustomerOrderItem() {
 
     const [changeStatus, setChangeStatus] = useState(false);
 
-    function StartChange() {
+    function startChange(jobId,jobname,department) {
 
         setChangeStatus(true);
         console.log("setChangeOrderItem true")
+        console.log("jobId: ",jobId)
     }
 
     async function onSubmit(data) {
 
 
-        if (changeStatus === true) {
-            localStorage.setItem('loadOrderItem', true);
-            console.log("data ", data)
-            putStatus(data);
-            setChangeStatus(false)
-            history.push("/customerOrder")
-
-
-        }
+        // if (changeStatus === true) {
+        //     localStorage.setItem('loadOrderItem', true);
+        //     console.log("data ", data)
+        //     putStatus(data);
+        //     setChangeStatus(false)
+        //     history.push("/customerOrder")
+        //
+        //
+        // }
 
 
     }
@@ -90,6 +91,17 @@ function CustomerOrderItem() {
                         <div>jobname: {job.jobname}</div>
                         <div>afdeling: {job.department}</div>
 
+                        <button onClick={() => startChange(
+                            (job.id)
+                        )
+
+                        }>
+                            Click me!
+                        </button>
+
+
+
+
                     </li>
 
                 })}
@@ -98,22 +110,13 @@ function CustomerOrderItem() {
             </ul>
 
 
-            {/*<ul>*/}
-            {/*    {orderIndividual.items.map((item) => {*/}
-            {/*        return <li key={item.id}>*/}
-            {/*            <div>Naam: {item.itemname} </div>*/}
-            {/*            <div>Quantity: {item.quantity} </div>*/}
-            {/*            <div>jobs: {item.jobsFromItem.length} </div>*/}
-            {/*        </li>*/}
-            {/*    })}*/}
-            {/*</ul>*/}
 
-            <button
-                type="text"
-                onClick={StartChange}
-            >
-                Wijzig status
-            </button>
+            {/*<button*/}
+            {/*    type="text"*/}
+            {/*    onClick={StartChange}*/}
+            {/*>*/}
+            {/*    Wijzig status*/}
+            {/*</button>*/}
 
 
             <>
