@@ -12,13 +12,16 @@ import CompanyUser from "./pages/CompanyUser/CompanyUser";
 import Customer from "./pages/Customer/Customer";
 import CustomerOrder from "./pages/Customer/CustomerOrder";
 import {AuthContext} from "./components/context/AuthContext";
+import CustomerOrderItem from "./pages/Customer/CustomerOrderItem";
 
 
 function App() {
     const history = useHistory();
-
+    localStorage.setItem('loadOrder', false);
 
     const {role} = useContext(AuthContext);
+
+
     console.log("Navigation, role uit authcontext: ", role)
 
     let isAuthCustomer = false;
@@ -97,6 +100,11 @@ function App() {
 
            <Route exact path="/customerOrder" >
                <CustomerOrder/>
+
+           </Route>
+
+           <Route exact path="/customerOrderItem" >
+               <CustomerOrderItem/>
 
            </Route>
 

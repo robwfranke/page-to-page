@@ -1,19 +1,28 @@
-import React, {useContext, useState,useEffect} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import axios from "axios";
 import {NavLink} from "react-router-dom";
 import {AuthContext} from "../../components/context/AuthContext";
-import {set} from "react-hook-form";
+// import {OrderContext} from "../../components/context/OrderContext";
+
 
 function Customer() {
 
     const [orders, setOrders] = useState([]);
     const [error, setError] = useState(false);
-    const [message,setMessage]=useState("");
+    const [message, setMessage] = useState("");
 
-    const {user}=useContext(AuthContext);
+    const {user} = useContext(AuthContext);
+
+    // const {status}=useContext(OrderContext);
+
+    // console.log("status OrderContext", status)
 
 
     const token = localStorage.getItem('token');
+
+    const loaded= localStorage.getItem('loadOrder')
+
+
 
 
     function getOrders() {
@@ -21,13 +30,13 @@ function Customer() {
         fetchData(token)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
+        localStorage.setItem('loadOrder', false);
 
         fetchData(token)
 
-    },[orders]);
 
-
+    }, [loaded]);
 
 
     async function fetchData(jwtToken) {
@@ -43,7 +52,7 @@ function Customer() {
                 }
             })
 
-            console.log("response CustomerOrder", response)
+            console.log("response CustomerOrderItem", response)
             // ?maak een array waar alle orders in staan
             // const testArray= response.data.
             console.log(response.data.length)
@@ -52,7 +61,7 @@ function Customer() {
 
 
         } catch (e) {
-            console.log("ik ben kapot")
+            console.log("Er is iets fout gegaan bij het ophalen")
             setError(true);
             setMessage("Er is iets fout gegaan bij het ophalen")
 
@@ -79,7 +88,11 @@ function Customer() {
                                 to={
                                     {
                                         pathname: `/customerOrder`,
-                                        state: {order: order}
+                                        setTestje:{setTestje:true},
+                                        state: {
+                                            order: order,
+
+                                        }
                                     }
 
                                 }
@@ -87,8 +100,8 @@ function Customer() {
                                 <p>ordernaam:<span>{order.ordername}</span></p>
 
                             </NavLink>
-                            <p>Omschrijving:<span>{order.description}</span> </p>
-                            <p>Status:<span>{order.status}</span> </p>
+                            <p>Omschrijving:<span>{order.description}</span></p>
+                            <p>Status:<span>{order.status}</span></p>
 
                             {/* **************************************************************** */}
                             {/*per order mappen over de items (altijd minimaal 1 aanwezig*/}
@@ -102,12 +115,12 @@ function Customer() {
                         </li>
                     })}
 
-                </ul>
-            </div>
+                        </ul>
+                        </div>
 
 
-        </section>
-    );
-}
+                        </section>
+                        );
+                    }
 
-export default Customer;
+                    export default Customer;

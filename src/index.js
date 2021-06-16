@@ -5,12 +5,15 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import AuthContextProvider from "./components/context/AuthContext";
+// import OrderContextProvider from "./components/context/OrderContext";
 
 ReactDOM.render(
   <React.StrictMode>
       <BrowserRouter>
           <AuthContextProvider>
+              {/*<OrderContextProvider>*/}
               <App/>
+              {/*</OrderContextProvider>*/}
           </AuthContextProvider>
       </BrowserRouter>
   </React.StrictMode>,

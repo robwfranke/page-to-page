@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import styles from "../Customer/Customer.module.css";
 
-function CustomerOrder() {
+function CustomerOrderItem() {
 
     const {register, handleSubmit, formState: {errors}} = useForm();
     const history = useHistory();
@@ -157,4 +157,4 @@ function CustomerOrder() {
     );
 };
 
-export default CustomerOrder;
+export default CustomerOrderItem;
