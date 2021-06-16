@@ -18,6 +18,7 @@ import CustomerOrderItem from "./pages/Customer/CustomerOrderItem";
 function App() {
     const history = useHistory();
     localStorage.setItem('loadOrder', false);
+    localStorage.setItem('loadOrderItem', false);
 
     const {role} = useContext(AuthContext);
 

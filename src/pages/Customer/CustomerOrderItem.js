@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useLocation,useHistory} from "react-router-dom";
+import {useLocation, useHistory, NavLink} from "react-router-dom";
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
 
@@ -11,15 +11,11 @@ function CustomerOrderItem() {
     const history = useHistory();
 
     const location = useLocation();
-    const x=location.setTestje
 
-    const orderIndividual = location.state.order;
-
-
-    console.log("orderIndividual: ",orderIndividual)
-    console.log("x: ",x)
+    const itemIndividual = location.state.item;
 
 
+    console.log("itemIndividual: ", itemIndividual)
 
 
     const token = localStorage.getItem('token');
@@ -29,18 +25,18 @@ function CustomerOrderItem() {
     function StartChange() {
 
         setChangeStatus(true);
-        console.log("setChangeOrder true")
+        console.log("setChangeOrderItem true")
     }
 
     async function onSubmit(data) {
 
 
         if (changeStatus === true) {
-            localStorage.setItem('loadOrder', true);
+            localStorage.setItem('loadOrderItem', true);
             console.log("data ", data)
             putStatus(data);
             setChangeStatus(false)
-            history.push("/customer")
+            history.push("/customerOrder")
 
 
         }
@@ -54,20 +50,19 @@ function CustomerOrderItem() {
         // console.log("AAAAAAAAAAAAAAAAAAAAAA  status: ",data.status)
         // console.log("AAAAAAAAAAAAAAAAAAAAAA token: ",token)
         const dataPut = {
-            ordername: orderIndividual.ordername,
-            status: data.status
+            ordername: itemIndividual.itemname,
+            quantity: data.quantity
         };
 
 
         try {
             console.log("PutStatus")
-            const response = await axios.put(`http://localhost:8080/orders/update/${orderIndividual.ordername}`, dataPut, {
+            const response = await axios.put(`http://localhost:8080/orders/update/${itemIndividual.itemname}`, dataPut, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${token}`, /*BACK TICK!!!!!*/
                 }
             })
-
 
 
         } catch (e) {
@@ -82,20 +77,36 @@ function CustomerOrderItem() {
     return (
 
         <section>
-            <h1>CustomerOrder pagina</h1>
-            <h2>{orderIndividual.ordername}</h2>
-            <h3>status: {orderIndividual.status}</h3>
-
+            <h1>CustomerOrderItem pagina</h1>
+            <h3>item naam: {itemIndividual.itemname}</h3>
+            <h3>quantity: {itemIndividual.quantity}</h3>
+            <h3>jobs: {itemIndividual.jobsFromItem.length}</h3>
 
             <ul>
-                {orderIndividual.items.map((item) => {
-                    return <li key={item.id}>
-                        <div>Naam: {item.itemname} </div>
-                        <div>Quantity: {item.quantity} </div>
-                        <div>jobs: {item.jobsFromItem.length} </div>
+                {itemIndividual.jobsFromItem.map((job) => {
+                    return <li key={job.id}>
+
+                        <div>job id: {job.id}</div>
+                        <div>jobname: {job.jobname}</div>
+                        <div>afdeling: {job.department}</div>
+
                     </li>
+
                 })}
+
+
             </ul>
+
+
+            {/*<ul>*/}
+            {/*    {orderIndividual.items.map((item) => {*/}
+            {/*        return <li key={item.id}>*/}
+            {/*            <div>Naam: {item.itemname} </div>*/}
+            {/*            <div>Quantity: {item.quantity} </div>*/}
+            {/*            <div>jobs: {item.jobsFromItem.length} </div>*/}
+            {/*        </li>*/}
+            {/*    })}*/}
+            {/*</ul>*/}
 
             <button
                 type="text"
@@ -113,29 +124,17 @@ function CustomerOrderItem() {
                     <fieldset className={styles["registration-container"]}>
 
 
-                        {/*<label htmlFor="username-field">*/}
-                        {/*    OrderNaam:*/}
-                        {/*    <input*/}
-                        {/*        type="text"*/}
-                        {/*        // defaultValue={orderIndividual.ordername}*/}
+                        <label htmlFor="username-field">
+                            item naam:
+                            <input
+                                type="text"
+                                defaultValue={itemIndividual.itemname}
 
-                        {/*        placeholder=""*/}
-                        {/*        {...register("ordername", {required: true})}*/}
-                        {/*    />*/}
-                        {/*    /!*{errors.username && (*!/*/}
-                        {/*    /!*    <span >Vul uw username in</span>*!/*/}
+                                placeholder=""
+                                {...register("ordername", {required: true})}
+                            />
 
-                        {/*    /!*)}*!/*/}
-                        {/*</label>*/}
-
-                        <p>Status</p>
-                        <select
-                            {...register("status",)}
-                        >
-                            <option value="open">open</option>
-                            <option value="pending">pending</option>
-                            <option value="finished">finished</option>
-                        </select>
+                        </label>
 
 
                         <button

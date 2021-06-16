@@ -133,20 +133,7 @@ function CustomerOrder() {
                     <fieldset className={styles["registration-container"]}>
 
 
-                        {/*<label htmlFor="username-field">*/}
-                        {/*    OrderNaam:*/}
-                        {/*    <input*/}
-                        {/*        type="text"*/}
-                        {/*        // defaultValue={orderIndividual.ordername}*/}
 
-                        {/*        placeholder=""*/}
-                        {/*        {...register("ordername", {required: true})}*/}
-                        {/*    />*/}
-                        {/*    /!*{errors.username && (*!/*/}
-                        {/*    /!*    <span >Vul uw username in</span>*!/*/}
-
-                        {/*    /!*)}*!/*/}
-                        {/*</label>*/}
 
                         <p>Status</p>
                         <select
