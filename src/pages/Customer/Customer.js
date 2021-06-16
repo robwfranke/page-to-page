@@ -88,7 +88,6 @@ function Customer() {
                                 to={
                                     {
                                         pathname: `/customerOrder`,
-                                        setTestje:{setTestje:true},
                                         state: {
                                             order: order,
 

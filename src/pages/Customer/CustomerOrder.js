@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {useLocation,useHistory} from "react-router-dom";
+import {useLocation, useHistory, NavLink} from "react-router-dom";
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
 
@@ -11,13 +11,11 @@ function CustomerOrder() {
     const history = useHistory();
 
     const location = useLocation();
-    const x=location.setTestje
 
     const orderIndividual = location.state.order;
 
 
     console.log("orderIndividual: ",orderIndividual)
-    console.log("x: ",x)
 
 
 
@@ -90,7 +88,29 @@ function CustomerOrder() {
             <ul>
                 {orderIndividual.items.map((item) => {
                     return <li key={item.id}>
-                        <div>Naam: {item.itemname} </div>
+
+
+
+                        <NavLink
+                            to={
+                                {
+                                    pathname: `/customerOrderItem`,
+                                    state: {
+                                        item: item,
+
+                                    }
+                                }
+
+                            }
+                        >
+                            <p>ordernaam:<span>{item.itemname}</span></p>
+
+                        </NavLink>
+
+
+
+
+                        {/*<div>Naam: {item.itemname} </div>*/}
                         <div>Quantity: {item.quantity} </div>
                         <div>jobs: {item.jobsFromItem.length} </div>
                     </li>
