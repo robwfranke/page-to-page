@@ -1,4 +1,4 @@
-import React, {useState,Component} from 'react';
+import React, {useState, Component} from 'react';
 import {useLocation, useHistory, NavLink} from "react-router-dom";
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
@@ -9,27 +9,61 @@ function CustomerOrderItem() {
 
     const {register, handleSubmit, formState: {errors}} = useForm();
     const history = useHistory();
-
     const location = useLocation();
+    const token = localStorage.getItem('token');
 
     const itemIndividual = location.state.item;
 
+    const [changeStatus, setChangeStatus] = useState(false);
+
+    const [jobId, setJobId] = useState("")
+    const [jobname, setJobname] = useState("")
+
+    const [addJobStatus, setAddJobStatus] = useState(false)
+    const[warningJobExists, setWarningJobExists]= useState(false)
 
     console.log("itemIndividual: ", itemIndividual)
 
 
-    const token = localStorage.getItem('token');
+    function addJob() {
+        console.log("Function addJob")
+        setAddJobStatus(true);
 
-    const [changeStatus, setChangeStatus] = useState(false);
 
-    function startChange(jobId,jobname,department) {
+    }
+
+
+    function startChange(job) {
+
+        setJobId(job.id)
+        setJobname(job.jobname)
 
         setChangeStatus(true);
         console.log("setChangeOrderItem true")
-        console.log("jobId: ",jobId)
+        console.log("jobId: ", job)
+
+        console.log("id: ", job.id)
     }
 
+
     async function onSubmit(data) {
+
+        console.log("Onsubmit fuction")
+        console.log("data ", data)
+        console.log("itemIndividual.jobsFromItem:", itemIndividual.jobsFromItem)
+        // check of the jobname er al is, dan setWarning)
+        const found = itemIndividual.jobsFromItem.some(item => item.jobname === data.jobname);
+        console.log("found: ",found)
+
+        if (found===true){
+            setWarningJobExists(true)
+            console.log("warningJobExists true", warningJobExists)
+        }else{
+            console.log("warningJobExists false dus nu toevoegen!", warningJobExists)
+        }
+
+
+
 
 
         // if (changeStatus === true) {
@@ -69,6 +103,7 @@ function CustomerOrderItem() {
         } catch (e) {
             console.log("PutStatus fout gegaan")
 
+
         }
 
 
@@ -91,53 +126,44 @@ function CustomerOrderItem() {
                         <div>jobname: {job.jobname}</div>
                         <div>afdeling: {job.department}</div>
 
-                        <button onClick={() => startChange(
-                            (job.id)
-                        )
-
-                        }>
-                            Click me!
-                        </button>
-
-
-
-
                     </li>
 
+
                 })}
+
+
+
+                <button
+                    onClick={addJob}
+
+                >
+                    Voeg Job toe
+
+                </button>
 
 
             </ul>
 
 
-
-            {/*<button*/}
-            {/*    type="text"*/}
-            {/*    onClick={StartChange}*/}
-            {/*>*/}
-            {/*    Wijzig status*/}
-            {/*</button>*/}
-
-
             <>
 
 
-                {changeStatus &&
+                {addJobStatus &&
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <fieldset className={styles["registration-container"]}>
+                        <h3>Voeg job toe</h3>
 
 
-                        <label htmlFor="username-field">
-                            item naam:
-                            <input
-                                type="text"
-                                defaultValue={itemIndividual.itemname}
-
-                                placeholder=""
-                                {...register("ordername", {required: true})}
-                            />
-
-                        </label>
+                        <p>jobname</p>
+                        <select
+                            {...register("jobname",)}
+                        >
+                            <option value="voordraaien">voordraaien</option>
+                            <option value="nadraaien">nadraaien</option>
+                            <option value="voorfrezen">voorfrezen</option>
+                            <option value="nafrezen">nafrezen</option>
+                            <option value="slijpen">slijpen</option>
+                        </select>
 
 
                         <button

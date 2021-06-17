@@ -103,7 +103,7 @@ function CustomerOrder() {
 
                             }
                         >
-                            <p>ordernaam:<span>{item.itemname}</span></p>
+                            <p>item naam:<span>{item.itemname}</span></p>
 
                         </NavLink>
 
