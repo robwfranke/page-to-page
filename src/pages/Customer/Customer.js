@@ -15,9 +15,16 @@ function Customer() {
 
 
     const [orders, setOrders] = useState([]);
-    const [error, setError] = useState(false);
-    const [message, setMessage] = useState("");
-    const [addOrderStatus, setAddOrderStatus]=useState(false);
+
+    const [errorFetchData, setErrorFetchData] = useState(false);
+    const [messageFetchData, setMessageFetchData] = useState("");
+
+
+    const [errorAddOrder, setErrorAddOrder] = useState(false);
+    const [messageAddOrder, setMessageAddOrder] = useState("");
+
+
+    const [addOrderStatus, setAddOrderStatus] = useState(false);
 
     const {user} = useContext(AuthContext);
 
@@ -26,39 +33,28 @@ function Customer() {
     // console.log("status OrderContext", status)
 
 
-    const token = localStorage.getItem('token');
+    const jwtToken = localStorage.getItem('token');
 
     const loaded = localStorage.getItem('loadOrder')
 
 
     function getOrders() {
         console.log("getOrders")
-        fetchData(token)
+        fetchData(jwtToken)
     }
 
 
-    function addOrder(){
+    function addOrder() {
         setAddOrderStatus(true)
 
 
     }
 
 
-
-    async function onSubmit(data) {
-        console.log("CustomerOrder add:", data)
-
-// setAddOrderStatus(false);
-    }
-
-
-
-
-
     useEffect(() => {
         localStorage.setItem('loadOrder', false);
 
-        fetchData(token)
+        fetchData(jwtToken)
 
 
     }, [loaded]);
@@ -88,8 +84,8 @@ function Customer() {
         } catch (e) {
             console.log("Er is iets fout gegaan bij het ophalen")
 
-            setError(true);
-            setMessage("Er is iets fout gegaan bij het ophalen")
+            setErrorFetchData(true);
+            setMessageFetchData("Er is iets fout gegaan bij het ophalen")
 
 
         }
@@ -97,19 +93,131 @@ function Customer() {
     }
 
 
+    async function onSubmit(data) {
+        console.log("CustomerOrder add:", data)
+        const dataNewOrder = {
+
+            ordername: data.ordername,
+            description: data.description
+        };
+
+        console.log("dataNewOrder: ", dataNewOrder)
+
+        try {
+            setErrorAddOrder(false)
+            setMessageAddOrder("")
+
+            const response = await axios.post(`http://localhost:8080/orders/create`, dataNewOrder, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwtToken}`, /*BACK TICK!!!!!*/
+                }
+            })
+
+
+            localStorage.setItem('loadOrder', true);
+
+
+        } catch (error) {
+            // console.log("errorAddData: ",errorAddData)
+            // console.log("STATUSCODE: ",errorAddData)
+            console.log(error.response.status)
+            console.log("foutje in addOrder")
+            setErrorAddOrder(true);
+            if (error.response.status === 401) {
+                setMessageAddOrder("Order bestaat al!! (StatusCode 401)")
+
+            }
+
+
+        }
+
+
+        setAddOrderStatus(false);
+    }
+
+
     return (
         <section>
             <h3>Customer pagina {user.username}</h3>
-            <button onClick={getOrders}
-            >
-                Haal orders op
-            </button>
 
-            <div>
+            {/***************** BUTTONS *******************************/}
+            <fieldset className={styles["listOrder-buttons"]}>
+                <button onClick={getOrders}
+                >
+                    Haal orders op
+                </button>
+
+
+                <button onClick={addOrder}
+                >
+                    Voeg order toe
+                </button>
+
+
+                {addOrderStatus &&
+                <form onSubmit={handleSubmit(onSubmit)}>
+
+                    <fieldset className={styles["addOrder-container"]}>
+                        <h3>Voeg nieuwe order toe</h3>
+
+
+                        <label htmlFor="username-field">
+                            Naam van de order:
+                            <input
+                                type="text"
+
+                                placeholder="vb tekening nummer"
+                                {...register("ordername", {required: true})}
+                            />
+                            {errors.ordername && (
+                                <span className={styles["alert"]}>Vul order naam in</span>
+
+                            )}
+                        </label>
+
+
+                        <label htmlFor="description">
+                            Klant Omschrijving
+                            <textarea
+                                placeholder="Optioneel"
+
+                                {...register("description",)}
+
+                            />
+
+                        </label>
+
+
+                        {errorAddOrder &&
+                        <div className={styles["alert"]}>{messageAddOrder}</div>
+                        }
+
+
+                        <button
+                            type="submit"
+                            className={styles["submit-button"]}
+                        >
+                            Voeg toe!
+                        </button>
+
+
+                    </fieldset>
+                </form>
+                }
+
+
+            </fieldset>
+            {/************************************************/}
+
+
+            {/***************** LIST of ORDERS ************************/}
+            <fieldset className={styles["listOrder-container"]}>
 
                 <ul>
                     {orders.map((order) => {
                         return <li key={order.id}>
+                            <div></div>
                             <NavLink
                                 to={
                                     {
@@ -125,8 +233,9 @@ function Customer() {
                                 <p>ordernaam:<span>{order.ordername}</span></p>
 
                             </NavLink>
-                            <p>Omschrijving:<span>{order.description}</span></p>
                             <p>Status:<span>{order.status}</span></p>
+
+                            <p>Omschrijving:<span>{order.description}</span></p>
 
                             {/* **************************************************************** */}
                             {/*per order mappen over de items (altijd minimaal 1 aanwezig*/}
@@ -141,75 +250,12 @@ function Customer() {
                     })}
 
                 </ul>
-            </div>
 
-
-
-            <button onClick={addOrder}
-            >
-                Voeg order toe
-            </button>
-
-
-            {addOrderStatus &&
-            <form onSubmit={handleSubmit(onSubmit)}>
-
-                <fieldset className={styles["addOrder-container"]}>
-                    <h3>Voeg nieuwe order toe</h3>
-
-
-                    <label htmlFor="username-field">
-                        Naam van de order:
-                        <input
-                            type="text"
-
-                            placeholder="vb tekening nummer"
-                            {...register("ordername", {required: true})}
-                        />
-                        {errors.username && (
-                            <span className={styles["alert"]}>Vul order naam in</span>
-
-                        )}
-                    </label>
-
-
-
-
-                    <label htmlFor="description">
-                        Klant Omschrijving
-                        <textarea
-
-                            {...register("description", )}
-
-                        />
-
-                    </label>
-
-
-                    <button
-                        type="submit"
-                        className={styles["submit-button"]}
-                    >
-                        Voeg toe!
-                    </button>
-
-
-
-
-                </fieldset>
-            </form>
-            }
-
-
-
+            </fieldset>
+            {/************************************************/}
 
 
         </section>
-
-
-
-
-
 
 
     );

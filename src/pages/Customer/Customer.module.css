@@ -11,6 +11,31 @@
     margin-left: 150px;
 }
 
+.listOrder-container {
+    width: 50%;
+    box-sizing: border-box;
+    flex-direction: row;
+    color: black;
+    background-color: coral;
+    display: flex;
+    justify-content: left;
+    height: 60%;
+    align-items: flex-start;
+    margin-left: 150px;
+}
+
+.listOrder-buttons {
+    width: 50%;
+    box-sizing: border-box;
+    flex-direction: row;
+    color: black;
+    background-color: coral;
+    display: flex;
+    justify-content: center;
+    height: 60%;
+    align-items: flex-start;
+    margin-left: 150px;
+}
 
 .alert {
     background-color: red;
