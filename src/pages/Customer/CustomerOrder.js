@@ -24,6 +24,7 @@ function CustomerOrder() {
 
 
 
+    const loadOrder = localStorage.getItem('loadOrder')
 
     const token = localStorage.getItem('token');
     const decoded = jwt_decode(token);
@@ -40,6 +41,16 @@ function CustomerOrder() {
         console.log("setChangeOrder true")
     }
 
+
+    function cancel1() {
+        // setLoadOrderState(true);
+        // setAddOrderStatus(false)
+        history.push("/customer")
+
+    }
+
+
+
     async function onSubmit(data) {
 
 
@@ -49,6 +60,7 @@ function CustomerOrder() {
             console.log("data in onSubmit", data)
             putStatus(data);
             setChangeStatus(false)
+            localStorage.setItem('loadOrder', true);
             history.push("/customer")
 
 
@@ -103,37 +115,7 @@ function CustomerOrder() {
             <h3>status: {orderIndividual.status}</h3>
 
 
-            <ul>
-                {orderIndividual.items.map((item) => {
-                    return <li key={item.id}>
-
-
-
-                        <NavLink
-                            to={
-                                {
-                                    pathname: `/customerOrderItem`,
-                                    state: {
-                                        item: item,
-
-                                    }
-                                }
-
-                            }
-                        >
-                            <p>item naam:<span>{item.itemname}</span></p>
-
-                        </NavLink>
-
-
-
-
-                        {/*<div>Naam: {item.itemname} </div>*/}
-                        <div>Quantity: {item.quantity} </div>
-                        <div>jobs: {item.jobsFromItem.length} </div>
-                    </li>
-                })}
-            </ul>
+            <fieldset className={styles["listItem-buttons"]}>
 
             <button
                 type="text"
@@ -141,6 +123,16 @@ function CustomerOrder() {
             >
                 Wijzig status
             </button>
+
+
+                <button
+                    onClick={cancel1}
+                    className={styles["submit-button"]}
+                >
+                    Cancel
+                </button>
+
+
 
 
             <>
@@ -176,6 +168,45 @@ function CustomerOrder() {
 
 
             </>
+            </fieldset>
+
+
+            <ul>
+                {orderIndividual.items.map((item) => {
+                    return <li key={item.id}>
+
+
+
+                        <NavLink
+                            to={
+                                {
+                                    pathname: `/customerOrderItem`,
+                                    state: {
+                                        item: item,
+
+                                    }
+                                }
+
+                            }
+                        >
+                            <p>item naam:<span>{item.itemname}</span></p>
+
+                        </NavLink>
+
+
+
+
+                        {/*<div>Naam: {item.itemname} </div>*/}
+                        <div>Quantity: {item.quantity} </div>
+                        <div>jobs: {item.jobsFromItem.length} </div>
+                    </li>
+                })}
+            </ul>
+
+
+
+
+
 
 
         </section>

@@ -15,6 +15,9 @@ function Customer() {
 
 
     const [orders, setOrders] = useState([]);
+    const [addOrderStatus, setAddOrderStatus] = useState(false);
+    const [loadOrderState, setLoadOrderState] = useState(false);
+
 
     const [errorFetchData, setErrorFetchData] = useState(false);
     const [messageFetchData, setMessageFetchData] = useState("");
@@ -23,8 +26,6 @@ function Customer() {
     const [errorAddOrder, setErrorAddOrder] = useState(false);
     const [messageAddOrder, setMessageAddOrder] = useState("");
 
-
-    const [addOrderStatus, setAddOrderStatus] = useState(false);
 
     const {user} = useContext(AuthContext);
 
@@ -50,7 +51,7 @@ function Customer() {
 
 
     function cancelAddOrder() {
-        localStorage.setItem('loadOrder', true);
+        setLoadOrderState(true);
         setAddOrderStatus(false)
 
     }
@@ -60,9 +61,24 @@ function Customer() {
 
 
         fetchData(jwtToken)
-        localStorage.setItem('loadOrder', false);
+        setLoadOrderState(false)
 
+
+    }, [loadOrderState,loadOrder]);
+
+
+
+    useEffect(() => {
+        fetchData(jwtToken)
+        localStorage.setItem('loadOrder', false);
     }, [loadOrder]);
+
+
+
+
+
+
+
 
 
     async function fetchData(jwtToken) {
@@ -119,9 +135,9 @@ function Customer() {
                 }
             })
 
+            setLoadOrderState(true);
 
-            localStorage.setItem('loadOrder', true);
-
+            setAddOrderStatus(false);
 
         } catch (error) {
             // console.log("errorAddData: ",errorAddData)
@@ -138,7 +154,6 @@ function Customer() {
         }
 
 
-        setAddOrderStatus(false);
     }
 
 
