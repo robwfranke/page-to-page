@@ -1,6 +1,8 @@
+import './App.css';
+
 import React, {useContext, useState} from 'react';
 
-import './App.css';
+
 import {Route, Switch, Redirect,useHistory} from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Navigation from "./components/navigation/Navigation";

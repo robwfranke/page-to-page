@@ -35,7 +35,7 @@ function Customer() {
 
     const jwtToken = localStorage.getItem('token');
 
-    const loaded = localStorage.getItem('loadOrder')
+    const loadOrder = localStorage.getItem('loadOrder')
 
 
     function getOrders() {
@@ -46,18 +46,23 @@ function Customer() {
 
     function addOrder() {
         setAddOrderStatus(true)
+    }
 
+
+    function cancelAddOrder() {
+        localStorage.setItem('loadOrder', true);
+        setAddOrderStatus(false)
 
     }
 
 
     useEffect(() => {
-        localStorage.setItem('loadOrder', false);
+
 
         fetchData(jwtToken)
+        localStorage.setItem('loadOrder', false);
 
-
-    }, [loaded]);
+    }, [loadOrder]);
 
 
     async function fetchData(jwtToken) {
@@ -193,13 +198,22 @@ function Customer() {
                         <div className={styles["alert"]}>{messageAddOrder}</div>
                         }
 
+                        <div>
+                            <button
+                                type="submit"
+                                className={styles["submit-button"]}
+                            >
+                                Voeg toe!
+                            </button>
 
-                        <button
-                            type="submit"
-                            className={styles["submit-button"]}
-                        >
-                            Voeg toe!
-                        </button>
+
+                            <button
+                                onClick={cancelAddOrder}
+                                className={styles["submit-button"]}
+                            >
+                                Cancel
+                            </button>
+                        </div>
 
 
                     </fieldset>

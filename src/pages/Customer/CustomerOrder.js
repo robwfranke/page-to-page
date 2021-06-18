@@ -4,8 +4,13 @@ import {useForm} from 'react-hook-form';
 import axios from 'axios';
 
 import styles from "../Customer/Customer.module.css";
+import jwt_decode from "jwt-decode";
 
 function CustomerOrder() {
+
+
+
+
 
     const {register, handleSubmit, formState: {errors}} = useForm();
     const history = useHistory();
@@ -21,6 +26,11 @@ function CustomerOrder() {
 
 
     const token = localStorage.getItem('token');
+    const decoded = jwt_decode(token);
+    const userNameInCustomerOrder = decoded.sub;
+
+
+
 
     const [changeStatus, setChangeStatus] = useState(false);
 
@@ -34,8 +44,9 @@ function CustomerOrder() {
 
 
         if (changeStatus === true) {
-            localStorage.setItem('loadOrder', true);
-            console.log("data ", data)
+            // localStorage.setItem('loadOrder', true);
+
+            console.log("data in onSubmit", data)
             putStatus(data);
             setChangeStatus(false)
             history.push("/customer")
@@ -59,6 +70,12 @@ function CustomerOrder() {
 
         try {
             console.log("PutStatus")
+            console.log("dataPut, ordername: ", dataPut.ordername)
+            console.log("dataPut, status: ",dataPut.status)
+            console.log("dataPut, userNameInCustomerOrder: ",userNameInCustomerOrder)
+
+
+
             const response = await axios.put(`http://localhost:8080/orders/update/${orderIndividual.ordername}`, dataPut, {
                 headers: {
                     "Content-Type": "application/json",
@@ -69,7 +86,8 @@ function CustomerOrder() {
 
 
         } catch (e) {
-            console.log("PutStatus fout gegaan")
+            console.log("PutStatus fout gegaan", e.response)
+            console.log("PutStatus fout gegaan", e.response.status)
 
         }
 
