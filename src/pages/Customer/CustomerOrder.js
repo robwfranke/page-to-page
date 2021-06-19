@@ -9,7 +9,7 @@ import jwt_decode from "jwt-decode";
 function CustomerOrder() {
 
 
-    const {register, handleSubmit, formState: {errors}} = useForm();
+    const {register, handleSubmit, formState: {errors},reset,} = useForm();
     const history = useHistory();
 
     const location = useLocation();
@@ -25,9 +25,14 @@ function CustomerOrder() {
     const token = localStorage.getItem('token');
     const decoded = jwt_decode(token);
     const userNameInCustomerOrder = decoded.sub;
+
+
     const [changeStatus, setChangeStatus] = useState(false);
     const[addItemStatus, setAddItemStatus]=useState(false);
     const [disableButton, setDisableButton] = useState(false);
+
+    const [errorAddItem, setErrorAddItem] = useState(false);
+    const [messageAddItem, setMessageAddItem] = useState("");
 
 
     function StartChangeStatus() {
@@ -38,7 +43,13 @@ function CustomerOrder() {
     }
 
 
+
+
+
+
+
     function cancelCustomerOrder() {
+
 
         history.push("/customer")
 
@@ -49,7 +60,10 @@ function CustomerOrder() {
     }
 
     function canceladdItem() {
+        setErrorAddItem(false)
+        setMessageAddItem("")
         setAddItemStatus(false);
+
     }
 
 
@@ -64,7 +78,7 @@ function CustomerOrder() {
 
 
         if (changeStatus === true) {
-            // localStorage.setItem('loadOrder', true);
+
 
             console.log("data in onSubmit van changeStatus", data)
             putStatus(data);
@@ -77,11 +91,11 @@ function CustomerOrder() {
         if (addItemStatus===true){
 
             console.log("data in onSubmit van addItem", data)
+            postAddItem(data);
+            console.log("postAddItem gedaan")
+
 
         }
-
-
-
 
     }
 
@@ -121,6 +135,76 @@ function CustomerOrder() {
     }
 
 
+
+
+    async function postAddItem(data) {
+
+        const dataAddNewItem = {
+            orderName:orderIndividual.ordername,
+            itemName: data.itemname,
+            quantity: data.quantity
+        };
+
+
+        try {
+            console.log("PostStatus")
+            console.log("dataPost,ordername: ", dataAddNewItem.ordername)
+            console.log("dataPost, itemname: ", dataAddNewItem.itemname)
+            console.log("dataPost, quantity: ", dataAddNewItem.quantity)
+            console.log("dataPost, userNameInCustomerOrder: ", userNameInCustomerOrder)
+
+            console.log("dataAddNewItem",dataAddNewItem)
+
+
+            const response = await axios.post(`http://localhost:8080/items/create`, dataAddNewItem, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`, /*BACK TICK!!!!!*/
+                }
+            })
+            console.log("post gedaan nu reset ")
+            setErrorAddItem(false)
+            setMessageAddItem("")
+            setAddItemStatus(false);
+            history.push("/customer")
+
+
+
+        } catch (error) {
+            console.log("foutje bedankt")
+
+            console.log("PostStatus fout gegaan", error.response.status)
+            console.log("PostStatus fout gegaan", error.response.status)
+            setErrorAddItem(true)
+            if (error.response.status === 401) {
+                setMessageAddItem("Item bestaat al!! (StatusCode 401)")
+
+            }
+
+
+        }
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
 
         <section>
@@ -152,7 +236,7 @@ function CustomerOrder() {
                     onClick={cancelCustomerOrder}
                     className={styles["submit-button"]}
                 >
-                    Cancel
+                    Start Page
                 </button>
 
 
@@ -203,7 +287,7 @@ function CustomerOrder() {
 
                             <p>Voeg item toe</p>
                             <label htmlFor="itemname-field">
-                                Username:
+                                Item naam:
                                 <input
                                     type="text"
 
@@ -222,29 +306,25 @@ function CustomerOrder() {
                                 Aantal:
                                 <input
                                     type="integer"
-
-                                    placeholder="vb. dwg 2021-001"
+                                    // type="reset"
+                                   placeholder="min.1 en hele getallen"
                                     {...register("quantity", {
                                         required: true,
-                                    min:1
+                                        pattern:/^[0-9\b]+$/,
+                                        // pattern:/^([0-9)*$,
+                                        min:1
                                     })}
                                 />
                                 {errors.quantity && (
-                                    <span className={styles["alert"]}>aantal groter dan nul</span>
+                                    <span className={styles["alert"]}>check invoer</span>
 
                                 )}
                             </label>
 
 
-
-
-
-
-
-
-
-
-
+                            {errorAddItem &&
+                            <div className={styles["alert"]}>{messageAddItem}</div>
+                            }
 
                             <button
                                 type="submit"

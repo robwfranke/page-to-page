@@ -270,7 +270,7 @@ function Customer() {
                             {/*per order mappen over de items (altijd minimaal 1 aanwezig*/}
                             <ul>
                                 {order.items.map((item) => {
-                                    return <li key={item.id}><span>itemname: </span>{item.itemname}
+                                    return <li key={item.id}><span>itemname: </span>{item.itemname}<span>....</span><span>aantal:</span>{item.quantity}
                                     </li>
                                 })}
                             </ul>
