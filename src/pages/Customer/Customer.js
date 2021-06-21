@@ -29,6 +29,9 @@ function Customer() {
 
     const {user} = useContext(AuthContext);
 
+    const [customerPageUpdate,setCustomerUpdatePage]=useState(false);
+
+
     // const {status}=useContext(OrderContext);
 
     // console.log("status OrderContext", status)
@@ -57,20 +60,29 @@ function Customer() {
     }
 
 
+
+    useEffect(()=>{
+
+        console.log("ik ben geflipt" )
+    },[customerPageUpdate])
+
+
     useEffect(() => {
 
 
         fetchData(jwtToken)
         setLoadOrderState(false)
+        setCustomerUpdatePage(false)
 
 
-    }, [loadOrderState,loadOrder]);
+    }, [loadOrderState]);
 
 
 
     useEffect(() => {
         fetchData(jwtToken)
         localStorage.setItem('loadOrder', false);
+        setCustomerUpdatePage(false)
     }, [loadOrder]);
 
 
@@ -258,6 +270,7 @@ function Customer() {
                                     }
 
                                 }
+                                test={setCustomerUpdatePage}
                             >
                                 <p>ordernaam:<span>{order.ordername}</span></p>
 

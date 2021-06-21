@@ -6,7 +6,7 @@ import axios from 'axios';
 import styles from "../Customer/Customer.module.css";
 import jwt_decode from "jwt-decode";
 
-function CustomerOrder() {
+function CustomerOrder({test}) {
 
 
     const {register, handleSubmit, formState: {errors},reset,} = useForm();
@@ -73,6 +73,11 @@ function CustomerOrder() {
 
     }
 
+    function flip(){
+        test(true)
+
+    }
+
 
     async function onSubmit(data) {
 
@@ -83,7 +88,10 @@ function CustomerOrder() {
             console.log("data in onSubmit van changeStatus", data)
             putStatus(data);
             setChangeStatus(false)
+
             localStorage.setItem('loadOrder', true);
+            flip();
+
             history.push("/customer")
         }
 
@@ -100,10 +108,7 @@ function CustomerOrder() {
     }
 
     async function putStatus(data) {
-        //
-        // console.log("AAAAAAAAAAAAAAAAAAAAAA  ordername: ",orderIndividual.ordername)
-        // console.log("AAAAAAAAAAAAAAAAAAAAAA  status: ",data.status)
-        // console.log("AAAAAAAAAAAAAAAAAAAAAA token: ",token)
+
         const dataPut = {
             ordername: orderIndividual.ordername,
             status: data.status
