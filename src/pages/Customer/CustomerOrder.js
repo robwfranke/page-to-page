@@ -59,7 +59,7 @@ function CustomerOrder() {
         setChangeStatus(false);
     }
 
-    function canceladdItem() {
+    function cancelAddItem() {
         setErrorAddItem(false)
         setMessageAddItem("")
         setAddItemStatus(false);
@@ -67,17 +67,19 @@ function CustomerOrder() {
     }
 
 
+
     function addItem() {
         setChangeStatus(false);
         setAddItemStatus(true);
 
     }
-    //
-    // function triggerCustomerUpdatePageFunction(){
-    //     console.log("trigger", triggerCustomerUpdatePage)
-    //     triggerCustomerUpdatePage(true)
-    //
-    // }
+
+
+    function deleteItem(){
+
+        console.log("deleteItem")
+
+    }
 
 
     async function onSubmit(data) {
@@ -338,7 +340,7 @@ function CustomerOrder() {
 
 
                             <button
-                                onClick={canceladdItem}
+                                onClick={cancelAddItem}
                                 type="text"
                             >
                                 Cancel
@@ -388,7 +390,16 @@ function CustomerOrder() {
                             <p>item naam:<span>{item.itemname}</span></p>
 
                         </NavLink>
+<span>
+    <button
+        key={item.id}
+        onClick={deleteItem}
+        type="text"
+    >
+        Delete
+    </button>
 
+</span>
 
                         {/*<div>Naam: {item.itemname} </div>*/}
                         <div>Quantity: {item.quantity} </div>

@@ -61,12 +61,6 @@ function Customer() {
 
 
 
-    useEffect(()=>{
-        fetchData(jwtToken)
-        console.log("ik ben geflipt" )
-        setCustomerUpdatePage(false)
-    },[customerPageUpdate])
-
 
     useEffect(() => {
 
@@ -259,7 +253,6 @@ function Customer() {
                 <ul>
                     {orders.map((order) => {
                         return <li key={order.id}>
-                            <div></div>
                             <NavLink
                                 to={
                                     {

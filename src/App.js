@@ -4,7 +4,7 @@ import React, {useContext, useState} from 'react';
 import {AuthContext} from "./components/context/AuthContext";
 
 
-import {Route, Switch, Redirect,useHistory} from 'react-router-dom';
+import {Route, Switch, Redirect, useHistory} from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Navigation from "./components/navigation/Navigation";
 import Login from "./pages/Login/Login"
@@ -20,11 +20,10 @@ import Profile from "./pages/Profile/Profile";
 
 function App() {
     const history = useHistory();
-    // localStorage.setItem('loadOrder', false);
-    // localStorage.setItem('loadOrderItem', false);
+
 
     const {role} = useContext(AuthContext);
-const {email} = useContext(AuthContext);
+    const {email} = useContext(AuthContext);
 
     console.log("Navigation, role uit authcontext: ", role)
 
@@ -45,103 +44,81 @@ const {email} = useContext(AuthContext);
     }
 
 
-
-
-
     console.log("APP.js, ADMIN: ", isAuthAdmin)
     console.log("APP.js, COMPANY_USER: ", isAuthUser)
     console.log("APP.js, CUSTOMER: ", isAuthCustomer)
-    if((isAuthCustomer === false) && (isAuthUser === false) && (isAuthAdmin === false)){
+    if ((isAuthCustomer === false) && (isAuthUser === false) && (isAuthAdmin === false)) {
         history.push("/")
     }
 
 
+    return (
+        <div>
+            <Navigation
+                isAuthCustomer={isAuthCustomer}
+                isAuthUser={isAuthUser}
+                isAuthAdmin={isAuthAdmin}
 
-  return (
-     <div>
-         <Navigation
-             isAuthCustomer={isAuthCustomer}
-             isAuthUser={isAuthUser}
-             isAuthAdmin={isAuthAdmin}
-
-         />
-
-
-       <Switch>
-
-         <Route exact path="/home">
-           <Home/>
-         </Route>
+            />
 
 
+            <Switch>
 
-           <Route exact path="/login">
-               <Login/>
-           </Route>
-
-           <Route exact path="/profile">
-               <Profile/>
-           </Route>
+                <Route exact path="/home">
+                    <Home/>
+                </Route>
 
 
-           <Route exact path="/logout">
-               <Logout/>
-           </Route>
+                <Route exact path="/login">
+                    <Login/>
+                </Route>
+
+                <Route exact path="/profile">
+                    <Profile/>
+                </Route>
 
 
-           <Route exact path="/registration">
-               <Registration/>
-           </Route>
-
-           <Route exact path="/admin1">
-               <Admin/>
-           </Route>
-
-           <Route exact path="/companyUser" >
-               <CompanyUser/>
-           </Route>
+                <Route exact path="/logout">
+                    <Logout/>
+                </Route>
 
 
-           <Route exact path="/customer" >
-               <Customer/>
-           </Route>
+                <Route exact path="/registration">
+                    <Registration/>
+                </Route>
+
+                <Route exact path="/admin1">
+                    <Admin/>
+                </Route>
+
+                <Route exact path="/companyUser">
+                    <CompanyUser/>
+                </Route>
 
 
-           <Route exact path="/customerOrder" >
-               <CustomerOrder/>
-
-           </Route>
-
-           <Route exact path="/customerOrderItem" >
-               <CustomerOrderItem/>
-
-           </Route>
+                <Route exact path="/customer">
+                    <Customer/>
+                </Route>
 
 
-       </Switch>
+                <Route exact path="/customerOrder">
+                    <CustomerOrder/>
+
+                </Route>
+
+                <Route exact path="/customerOrderItem">
+                    <CustomerOrderItem/>
+
+                </Route>
 
 
+            </Switch>
 
 
+        </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-     </div>
-
-
-
-
-)}
+    )
+}
 
 export default App;
