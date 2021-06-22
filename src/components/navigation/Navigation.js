@@ -67,7 +67,11 @@ function Navigation({isAuthUser, isAuthCustomer, isAuthAdmin, loggedIn}) {
                     </li>
                     }
 
-
+                    {((isAuthCustomer === true)) &&
+                    <li>
+                        <NavLink to="/profile" exact activeClassName={styles["active-link"]}>Profile</NavLink>
+                    </li>
+                    }
 
 
 

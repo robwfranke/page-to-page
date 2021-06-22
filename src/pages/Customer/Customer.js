@@ -39,7 +39,7 @@ function Customer() {
 
     const jwtToken = localStorage.getItem('token');
 
-    const loadOrder = localStorage.getItem('loadOrder')
+    // const loadOrder = localStorage.getItem('loadOrder')
 
 
     function getOrders() {
@@ -62,8 +62,9 @@ function Customer() {
 
 
     useEffect(()=>{
-
+        fetchData(jwtToken)
         console.log("ik ben geflipt" )
+        setCustomerUpdatePage(false)
     },[customerPageUpdate])
 
 
@@ -78,12 +79,12 @@ function Customer() {
     }, [loadOrderState]);
 
 
-
-    useEffect(() => {
-        fetchData(jwtToken)
-        localStorage.setItem('loadOrder', false);
-        setCustomerUpdatePage(false)
-    }, [loadOrder]);
+    //
+    // useEffect(() => {
+    //     fetchData(jwtToken)
+    //     localStorage.setItem('loadOrder', false);
+    //     setCustomerUpdatePage(false)
+    // }, [loadOrder]);
 
 
 
@@ -270,7 +271,7 @@ function Customer() {
                                     }
 
                                 }
-                                test={setCustomerUpdatePage}
+                                triggerCustomerUpdatePage={setCustomerUpdatePage}
                             >
                                 <p>ordernaam:<span>{order.ordername}</span></p>
 

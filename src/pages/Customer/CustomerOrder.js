@@ -6,7 +6,7 @@ import axios from 'axios';
 import styles from "../Customer/Customer.module.css";
 import jwt_decode from "jwt-decode";
 
-function CustomerOrder({test}) {
+function CustomerOrder() {
 
 
     const {register, handleSubmit, formState: {errors},reset,} = useForm();
@@ -20,7 +20,7 @@ function CustomerOrder({test}) {
     console.log("orderIndividual: ", orderIndividual)
 
 
-    const loadOrder = localStorage.getItem('loadOrder')
+
 
     const token = localStorage.getItem('token');
     const decoded = jwt_decode(token);
@@ -72,11 +72,12 @@ function CustomerOrder({test}) {
         setAddItemStatus(true);
 
     }
-
-    function flip(){
-        test(true)
-
-    }
+    //
+    // function triggerCustomerUpdatePageFunction(){
+    //     console.log("trigger", triggerCustomerUpdatePage)
+    //     triggerCustomerUpdatePage(true)
+    //
+    // }
 
 
     async function onSubmit(data) {
@@ -89,8 +90,6 @@ function CustomerOrder({test}) {
             putStatus(data);
             setChangeStatus(false)
 
-            localStorage.setItem('loadOrder', true);
-            flip();
 
             history.push("/customer")
         }

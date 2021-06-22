@@ -20,7 +20,9 @@ function CustomerOrderItem() {
     const [jobname, setJobname] = useState("")
 
     const [addJobStatus, setAddJobStatus] = useState(false)
-    const[warningJobExists, setWarningJobExists]= useState(false)
+    const [warningJobExists, setWarningJobExists] = useState(false)
+
+    const [messageJob, setMessageJob]=useState(false)
 
     console.log("itemIndividual: ", itemIndividual)
 
@@ -28,6 +30,44 @@ function CustomerOrderItem() {
     function addJob() {
         console.log("Function addJob")
         setAddJobStatus(true);
+    }
+
+
+    async function postAddJob(data) {
+
+        const dataAddNewJob = {
+            itemName: itemIndividual.itemname,
+            jobName: data.jobname
+        };
+
+        console.log("in postAddJob")
+        console.log("itemname", itemIndividual.itemname)
+        console.log("jobName", dataAddNewJob.jobName)
+
+
+        try {
+
+            //
+            const response = await axios.post(`http://localhost:8080/items/addJob`, dataAddNewJob, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`, /*BACK TICK!!!!!*/
+                }
+            })
+
+            setWarningJobExists(false)
+            setTimeout(() => {
+            history.push("/customer")
+            }, 2500);
+
+
+        } catch (error) {
+
+
+            console.error(error);
+
+
+        }
 
 
     }
@@ -53,28 +93,18 @@ function CustomerOrderItem() {
         console.log("itemIndividual.jobsFromItem:", itemIndividual.jobsFromItem)
         // check of the jobname er al is, dan setWarning)
         const found = itemIndividual.jobsFromItem.some(item => item.jobname === data.jobname);
-        console.log("found: ",found)
+        console.log("found: ", found)
 
-        if (found===true){
+        if (found === true) {
             setWarningJobExists(true)
             console.log("warningJobExists true", warningJobExists)
-        }else{
+        } else {
+            setWarningJobExists(false)
+            setMessageJob(true)
             console.log("warningJobExists false dus nu toevoegen!", warningJobExists)
         }
 
-
-
-
-
-        // if (changeStatus === true) {
-        //     localStorage.setItem('loadOrderItem', true);
-        //     console.log("data ", data)
-        //     putStatus(data);
-        //     setChangeStatus(false)
-        //     history.push("/customerOrder")
-        //
-        //
-        // }
+        postAddJob(data);
 
 
     }
@@ -118,6 +148,25 @@ function CustomerOrderItem() {
             <h3>quantity: {itemIndividual.quantity}</h3>
             <h3>jobs: {itemIndividual.jobsFromItem.length}</h3>
 
+
+            <button
+                onClick={addJob}
+
+            >
+                Voeg Job toe
+
+            </button>
+
+
+            <button
+                onClick={addJob}
+
+            >
+                delete Job
+
+            </button>
+
+
             <ul>
                 {itemIndividual.jobsFromItem.map((job) => {
                     return <li key={job.id}>
@@ -130,16 +179,6 @@ function CustomerOrderItem() {
 
 
                 })}
-
-
-
-                <button
-                    onClick={addJob}
-
-                >
-                    Voeg Job toe
-
-                </button>
 
 
             </ul>
@@ -169,9 +208,15 @@ function CustomerOrderItem() {
                         <button
                             type="submit"
                         >
-                            Wijzig!
+                            Voeg toe!
                         </button>
 
+                        {warningJobExists &&
+                        <div>bestaat al!!</div>
+                        }
+                        {messageJob &&
+                        <div>Job is opgeslagen, terug naar order bladzijde</div>
+                        }
 
                     </fieldset>
                 </form>

@@ -17,7 +17,8 @@ function AuthContextProvider({children}) {
         user: null,
         status: 'pending',
         loginStatus: false,
-        role:"",
+        role: "",
+        email: "",
 
     });
 
@@ -48,6 +49,16 @@ function AuthContextProvider({children}) {
             //check wat je binnen krijgt
             console.log("Data binnengehaald!")
             console.log("response:", response)
+            console.log("addresses", response.data.addresses)
+
+
+            // street: response.data.addresses[0].street,
+            //     city: response.data.addresses[0].city,
+            //     postalcode: response.data.addresses[0].postalcode,
+            //     telnumber:response.data.addresses[0].telnumber,
+
+
+
 
 
 
@@ -100,6 +111,11 @@ function AuthContextProvider({children}) {
                 status: 'done',
                 loginStatus: true,
                 role: roleTest,
+                email: response.data.email,
+                street: response.data.addresses[0].street,
+                city: response.data.addresses[0].city,
+                postalcode: response.data.addresses[0].postalcode,
+                telnumber:response.data.addresses[0].telnumber,
 
 
             });

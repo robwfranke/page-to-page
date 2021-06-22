@@ -1,6 +1,7 @@
 import './App.css';
 
 import React, {useContext, useState} from 'react';
+import {AuthContext} from "./components/context/AuthContext";
 
 
 import {Route, Switch, Redirect,useHistory} from 'react-router-dom';
@@ -13,17 +14,17 @@ import Admin from "./pages/Admin/Admin";
 import CompanyUser from "./pages/CompanyUser/CompanyUser";
 import Customer from "./pages/Customer/Customer";
 import CustomerOrder from "./pages/Customer/CustomerOrder";
-import {AuthContext} from "./components/context/AuthContext";
 import CustomerOrderItem from "./pages/Customer/CustomerOrderItem";
+import Profile from "./pages/Profile/Profile";
 
 
 function App() {
     const history = useHistory();
-    localStorage.setItem('loadOrder', false);
-    localStorage.setItem('loadOrderItem', false);
+    // localStorage.setItem('loadOrder', false);
+    // localStorage.setItem('loadOrderItem', false);
 
     const {role} = useContext(AuthContext);
-
+const {email} = useContext(AuthContext);
 
     console.log("Navigation, role uit authcontext: ", role)
 
@@ -77,6 +78,11 @@ function App() {
            <Route exact path="/login">
                <Login/>
            </Route>
+
+           <Route exact path="/profile">
+               <Profile/>
+           </Route>
+
 
            <Route exact path="/logout">
                <Logout/>
