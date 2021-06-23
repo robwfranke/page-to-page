@@ -49,11 +49,8 @@ function CustomerOrder() {
 
 
     function cancelCustomerOrder() {
-
-
         history.push("/customer")
-
-    }
+   }
 
     function cancelChangeStatusOrder() {
         setChangeStatus(false);
@@ -63,7 +60,6 @@ function CustomerOrder() {
         setErrorAddItem(false)
         setMessageAddItem("")
         setAddItemStatus(false);
-
     }
 
 
@@ -75,11 +71,37 @@ function CustomerOrder() {
     }
 
 
-    function deleteItem(){
+    async function deleteItem(itemName){
 
-        console.log("deleteItem")
 
+        const dataDeleteItem = {
+            itemName: "piet",
+
+        };
+
+        console.log("deleteItem", itemName)
+
+        try {
+
+
+            const response = await axios.delete(`http://localhost:8080/items/delete/itemname/${itemName}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`, /*BACK TICK!!!!!*/
+                }
+            })
+
+            console.log("deleteItem na response")
+
+    }catch (error) {
+
+
+            console.error(error);
+
+
+        }
     }
+
 
 
     async function onSubmit(data) {
@@ -387,13 +409,23 @@ function CustomerOrder() {
 
                             }
                         >
-                            <p>item naam:<span>{item.itemname}</span></p>
+                            <p>item naam:<span>{item.itemname}
+
+
+
+
+                            </span>
+
+
+
+
+                            </p>
 
                         </NavLink>
 <span>
     <button
         key={item.id}
-        onClick={deleteItem}
+        onClick={() => deleteItem(item.itemname)}
         type="text"
     >
         Delete
