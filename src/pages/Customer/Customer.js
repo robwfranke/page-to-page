@@ -29,17 +29,12 @@ function Customer() {
 
     const {user} = useContext(AuthContext);
 
-    const [customerPageUpdate,setCustomerUpdatePage]=useState(false);
-
-
-    // const {status}=useContext(OrderContext);
-
-    // console.log("status OrderContext", status)
+    const [customerPageUpdate, setCustomerUpdatePage] = useState(false);
 
 
     const jwtToken = localStorage.getItem('token');
 
-    // const loadOrder = localStorage.getItem('loadOrder')
+
 
 
     function getOrders() {
@@ -60,6 +55,13 @@ function Customer() {
     }
 
 
+    async function deleteOrder(orderName) {
+
+
+        console.log("deleteOrder", orderName)
+
+
+    }
 
 
     useEffect(() => {
@@ -71,18 +73,6 @@ function Customer() {
 
 
     }, [loadOrderState]);
-
-
-    //
-    // useEffect(() => {
-    //     fetchData(jwtToken)
-    //     localStorage.setItem('loadOrder', false);
-    //     setCustomerUpdatePage(false)
-    // }, [loadOrder]);
-
-
-
-
 
 
 
@@ -259,12 +249,11 @@ function Customer() {
                                         pathname: `/customerOrder`,
                                         state: {
                                             order: order,
-
+                                            // setCustomerUpdatePage:{setCustomerUpdatePage}
                                         }
                                     }
 
                                 }
-                                triggerCustomerUpdatePage={setCustomerUpdatePage}
                             >
                                 <p>ordernaam:<span>{order.ordername}</span></p>
 
@@ -273,11 +262,21 @@ function Customer() {
 
                             <p>Omschrijving:<span>{order.description}</span></p>
 
+
+                            <button
+
+                                onClick={() => deleteOrder(order.ordername)}
+                                type="text"
+                            >
+                                Delete order
+                            </button>
+
                             {/* **************************************************************** */}
                             {/*per order mappen over de items (altijd minimaal 1 aanwezig*/}
                             <ul>
                                 {order.items.map((item) => {
-                                    return <li key={item.id}><span>itemname: </span>{item.itemname}<span>    </span><span>aantal:</span>{item.quantity}
+                                    return <li key={item.id}>
+                                        <span>itemname: </span>{item.itemname}<span>    </span><span>aantal:</span>{item.quantity}
                                     </li>
                                 })}
                             </ul>

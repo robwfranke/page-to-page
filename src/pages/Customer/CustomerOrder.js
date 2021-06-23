@@ -1,25 +1,29 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useLocation, useHistory, NavLink} from "react-router-dom";
+import {AuthContext} from "../../components/context/AuthContext";
 import {useForm} from 'react-hook-form';
 import axios from 'axios';
 
 import styles from "../Customer/Customer.module.css";
 import jwt_decode from "jwt-decode";
 
-function CustomerOrder() {
+function CustomerOrder(CustomerUpdatePage) {
+
+    const {updatePageFromAuthState}=useContext(AuthContext);
 
 
-    const {register, handleSubmit, formState: {errors},reset,} = useForm();
+
+    const {register, handleSubmit, formState: {errors}, reset,} = useForm();
     const history = useHistory();
 
     const location = useLocation();
+
+    const jwtToken = localStorage.getItem('token');
 
     const orderIndividual = location.state.order;
 
 
     console.log("orderIndividual: ", orderIndividual)
-
-
 
 
     const token = localStorage.getItem('token');
@@ -28,11 +32,14 @@ function CustomerOrder() {
 
 
     const [changeStatus, setChangeStatus] = useState(false);
-    const[addItemStatus, setAddItemStatus]=useState(false);
+    const [addItemStatus, setAddItemStatus] = useState(false);
     const [disableButton, setDisableButton] = useState(false);
 
     const [errorAddItem, setErrorAddItem] = useState(false);
     const [messageAddItem, setMessageAddItem] = useState("");
+
+    const [errorMessageDeleteItem, setErrorMessageDeleteItem] = useState(false);
+    const [messageDeleteItem, setMessageDeleteItem] = useState("");
 
 
     function StartChangeStatus() {
@@ -43,14 +50,9 @@ function CustomerOrder() {
     }
 
 
-
-
-
-
-
     function cancelCustomerOrder() {
         history.push("/customer")
-   }
+    }
 
     function cancelChangeStatusOrder() {
         setChangeStatus(false);
@@ -63,7 +65,6 @@ function CustomerOrder() {
     }
 
 
-
     function addItem() {
         setChangeStatus(false);
         setAddItemStatus(true);
@@ -71,13 +72,8 @@ function CustomerOrder() {
     }
 
 
-    async function deleteItem(itemName){
+    async function deleteItem(itemName) {
 
-
-        const dataDeleteItem = {
-            itemName: "piet",
-
-        };
 
         console.log("deleteItem", itemName)
 
@@ -90,18 +86,22 @@ function CustomerOrder() {
                     Authorization: `Bearer ${token}`, /*BACK TICK!!!!!*/
                 }
             })
-
+            setErrorMessageDeleteItem(false)
+            setMessageDeleteItem(true);
             console.log("deleteItem na response")
 
-    }catch (error) {
+            setTimeout(() => {
+                history.push("/customer")
+            }, 2500);
 
-
+        } catch (error) {
+            setErrorMessageDeleteItem(true)
+            setMessageDeleteItem(false);
             console.error(error);
 
 
         }
     }
-
 
 
     async function onSubmit(data) {
@@ -112,14 +112,18 @@ function CustomerOrder() {
 
             console.log("data in onSubmit van changeStatus", data)
             putStatus(data);
+
+
             setChangeStatus(false)
 
+            //roep updatePageFromOutside function aan uit de authstate:
+            updatePageFromAuthState();
 
             history.push("/customer")
         }
 
 
-        if (addItemStatus===true){
+        if (addItemStatus === true) {
 
             console.log("data in onSubmit van addItem", data)
             postAddItem(data);
@@ -163,12 +167,10 @@ function CustomerOrder() {
     }
 
 
-
-
     async function postAddItem(data) {
 
         const dataAddNewItem = {
-            orderName:orderIndividual.ordername,
+            orderName: orderIndividual.ordername,
             itemName: data.itemname,
             quantity: data.quantity
         };
@@ -181,7 +183,7 @@ function CustomerOrder() {
             console.log("dataPost, quantity: ", dataAddNewItem.quantity)
             console.log("dataPost, userNameInCustomerOrder: ", userNameInCustomerOrder)
 
-            console.log("dataAddNewItem",dataAddNewItem)
+            console.log("dataAddNewItem", dataAddNewItem)
 
 
             const response = await axios.post(`http://localhost:8080/items/create`, dataAddNewItem, {
@@ -195,7 +197,6 @@ function CustomerOrder() {
             setMessageAddItem("")
             setAddItemStatus(false);
             history.push("/customer")
-
 
 
         } catch (error) {
@@ -212,32 +213,13 @@ function CustomerOrder() {
 
         }
 
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     return (
 
         <section>
             <h1>CustomerOrder pagina</h1>
-
 
 
             <fieldset className={styles["listItem-buttons"]}>
@@ -306,8 +288,6 @@ function CustomerOrder() {
                     }
 
 
-
-
                     {addItemStatus &&
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <fieldset className={styles["registration-container"]}>
@@ -329,18 +309,17 @@ function CustomerOrder() {
                             </label>
 
 
-
                             <label htmlFor="quantity-field">
                                 Aantal:
                                 <input
                                     type="integer"
                                     // type="reset"
-                                   placeholder="min.1 en hele getallen"
+                                    placeholder="min.1 en hele getallen"
                                     {...register("quantity", {
                                         required: true,
-                                        pattern:/^[0-9\b]+$/,
+                                        pattern: /^[0-9\b]+$/,
                                         // pattern:/^([0-9)*$,
-                                        min:1
+                                        min: 1
                                     })}
                                 />
                                 {errors.quantity && (
@@ -374,23 +353,21 @@ function CustomerOrder() {
                     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
                 </>
             </fieldset>
 
             <h2>{orderIndividual.ordername}</h2>
             <h3>status: {orderIndividual.status}</h3>
+
+            {messageDeleteItem &&
+            <h3>Item deleted!
+            <div>Binnen enkele seconden terug naar customer bladzijde</div>
+            </h3>
+
+            }
+
+            {errorMessageDeleteItem &&
+            <h3>Er is iets misgegaan!!</h3>}
 
             <ul>
                 {orderIndividual.items.map((item) => {
@@ -417,25 +394,28 @@ function CustomerOrder() {
                             </span>
 
 
-
-
                             </p>
 
                         </NavLink>
-<span>
+
+
+                        {/*<div>Naam: {item.itemname} </div>*/}
+                        <div>Quantity: {item.quantity} </div>
+                        <div>jobs: {item.jobsFromItem.length} </div>
+
+
+                        <span>
     <button
-        key={item.id}
+
         onClick={() => deleteItem(item.itemname)}
         type="text"
     >
         Delete
     </button>
 
-</span>
 
-                        {/*<div>Naam: {item.itemname} </div>*/}
-                        <div>Quantity: {item.quantity} </div>
-                        <div>jobs: {item.jobsFromItem.length} </div>
+
+</span>
                     </li>
                 })}
             </ul>

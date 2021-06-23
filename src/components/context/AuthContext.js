@@ -19,7 +19,7 @@ function AuthContextProvider({children}) {
         loginStatus: false,
         role: "",
         email: "",
-
+        updatePage: false,
     });
 
     //******************************************************************************
@@ -178,6 +178,21 @@ function AuthContextProvider({children}) {
     }, []);
 
 
+
+    async function updatePageFunction(){
+        console.log("AuthContext, start loginFunction")
+
+        const jwtToken = localStorage.getItem('token');
+
+        // gebruikersdata ophalen
+        fetchUserData(jwtToken);
+
+        console.log("AuthContext, net loginFunction uitgevoerd")
+
+
+    }
+
+
     //inlogfunctie
     // jwtToken nodig om daaruit de user ID te halen
     //jwtToken in de localStorage zetten
@@ -208,6 +223,7 @@ function AuthContextProvider({children}) {
     const data = {
         ...authState,
         login: loginFunction,
+        updatePageFromAuthState:updatePageFunction,
         // logout: logoutFunction,
     }
 
