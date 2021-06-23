@@ -1,6 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react';
 import axios from "axios";
-import {NavLink} from "react-router-dom";
+import {useLocation, useHistory, NavLink} from "react-router-dom";
 import {AuthContext} from "../../components/context/AuthContext";
 import styles from "./Customer.module.css";
 import {useForm} from 'react-hook-form';
@@ -27,14 +27,17 @@ function Customer() {
     const [messageAddOrder, setMessageAddOrder] = useState("");
 
 
+    const [errorMessageDeleteOrder, setErrorMessageDeleteOrder] = useState(false);
+    const [messageDeleteOrder, setMessageDeleteOrder] = useState(false);
+
+
     const {user} = useContext(AuthContext);
 
     const [customerPageUpdate, setCustomerUpdatePage] = useState(false);
 
 
     const jwtToken = localStorage.getItem('token');
-
-
+    const history = useHistory();
 
 
     function getOrders() {
@@ -60,6 +63,30 @@ function Customer() {
 
         console.log("deleteOrder", orderName)
 
+        try {
+            const response = await axios.delete(`http://localhost:8080/orders/delete/ordername/${orderName}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwtToken}`, /*BACK TICK!!!!!*/
+                }
+            })
+            // setErrorMessageDeleteOrder(false)
+            setMessageDeleteOrder(true);
+            setTimeout(() => {
+                setLoadOrderState(true)
+                setMessageDeleteOrder(false);
+                history.push("/customer")
+            }, 2500);
+
+            console.log("ORDER DELETED", orderName)
+
+        } catch (error) {
+            // setErrorMessageDeleteOrder(true)
+            // setMessageDeleteOrder(false);
+            console.error(error);
+
+
+        }
 
     }
 
@@ -73,9 +100,6 @@ function Customer() {
 
 
     }, [loadOrderState]);
-
-
-
 
 
     async function fetchData(jwtToken) {
@@ -160,16 +184,20 @@ function Customer() {
 
             {/***************** BUTTONS *******************************/}
             <fieldset className={styles["listOrder-buttons"]}>
-                <button onClick={getOrders}
-                >
-                    Haal orders op
-                </button>
+
 
 
                 <button onClick={addOrder}
                 >
                     Voeg order toe
                 </button>
+
+
+
+                {messageDeleteOrder &&
+                <h3>Item deleted!
+                    <div>Binnen enkele seconden terug naar customer bladzijde</div>
+                </h3>}
 
 
                 {addOrderStatus &&

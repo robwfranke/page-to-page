@@ -190,7 +190,18 @@ function AuthContextProvider({children}) {
         console.log("AuthContext, net loginFunction uitgevoerd")
 
 
+        setAuthState({
+            updatePage: true,
+        });
     }
+
+    // async function resetUpdatePageFlagFunction(){
+    //     setAuthState({
+    //         updatePage: false,
+    //
+    //     });
+    //
+    // }
 
 
     //inlogfunctie
