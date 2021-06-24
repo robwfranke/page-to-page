@@ -148,6 +148,8 @@ function AuthContextProvider({children}) {
         //is er een token in de local storage (token!==) maar geen gegevens (authState.user === null)
         // (want daar zit ook user gegevens in) haal dan gegevens op
 
+
+
         console.log('AuthContext.js, useEffect gestart')
 
         const token = localStorage.getItem('token');
@@ -195,13 +197,13 @@ function AuthContextProvider({children}) {
         });
     }
 
-    // async function resetUpdatePageFlagFunction(){
-    //     setAuthState({
-    //         updatePage: false,
-    //
-    //     });
-    //
-    // }
+
+
+
+
+
+
+
 
 
     //inlogfunctie
@@ -212,6 +214,13 @@ function AuthContextProvider({children}) {
     // de jwtToken (anyName), wordt meegegeven vanuit de signin.js page
     // vanuit:  login(response.data.accessToken)
     //dan doorlinken naar de profiel pagina (of andere zoals home ed)
+
+
+
+
+
+
+
     async function loginFunction(jwtToken) {
         console.log("AuthContext, start loginFunction")
 

@@ -81,10 +81,11 @@ function Customer() {
             console.log("ORDER DELETED", orderName)
 
         } catch (error) {
+
+            console.log("error bij deleten order")
             // setErrorMessageDeleteOrder(true)
             // setMessageDeleteOrder(false);
             console.error(error);
-
 
         }
 
@@ -186,12 +187,10 @@ function Customer() {
             <fieldset className={styles["listOrder-buttons"]}>
 
 
-
                 <button onClick={addOrder}
                 >
                     Voeg order toe
                 </button>
-
 
 
                 {messageDeleteOrder &&
@@ -286,19 +285,22 @@ function Customer() {
                                 <p>ordernaam:<span>{order.ordername}</span></p>
 
                             </NavLink>
-                            <p>Status:<span>{order.status}</span></p>
+                            <p>Status:{order.status}</p>
 
                             <p>Omschrijving:<span>{order.description}</span></p>
 
+                            {order.status === 'open' &&
+                            <div>
+                                <button
 
-                            <button
+                                    onClick={() => deleteOrder(order.ordername)}
+                                    type="text"
+                                >
+                                    Delete order
+                                </button>
 
-                                onClick={() => deleteOrder(order.ordername)}
-                                type="text"
-                            >
-                                Delete order
-                            </button>
-
+                            </div>
+                            }
                             {/* **************************************************************** */}
                             {/*per order mappen over de items (altijd minimaal 1 aanwezig*/}
                             <ul>
