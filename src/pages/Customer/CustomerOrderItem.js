@@ -14,6 +14,13 @@ function CustomerOrderItem() {
 
     const itemIndividual = location.state.item;
 
+    const orderStatus= location.state.status;
+    console.log("STATUS",orderStatus)
+
+
+
+
+
     const [changeStatus, setChangeStatus] = useState(false);
 
     const [jobId, setJobId] = useState("")
@@ -84,6 +91,13 @@ function CustomerOrderItem() {
 
         console.log("id: ", job.id)
     }
+
+
+   async function deleteJob(jobName){
+       console.log("DELETEJOB FUNCTION")
+       console.log("JOBNAME",jobName)
+
+   }
 
 
     async function onSubmit(data) {
@@ -158,13 +172,7 @@ function CustomerOrderItem() {
             </button>
 
 
-            <button
-                onClick={addJob}
 
-            >
-                delete Job
-
-            </button>
 
 
             <ul>
@@ -174,6 +182,17 @@ function CustomerOrderItem() {
                         <div>job id: {job.id}</div>
                         <div>jobname: {job.jobname}</div>
                         <div>afdeling: {job.department}</div>
+
+                        {orderStatus==='open'&&
+                        <button
+
+                            onClick={() => deleteJob(job.jobname)}
+                            type="text"
+                        >
+                            Delete
+                        </button>
+                        }
+
 
                     </li>
 

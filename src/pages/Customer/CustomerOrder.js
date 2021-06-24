@@ -104,6 +104,7 @@ function CustomerOrder(CustomerUpdatePage) {
     }
 
 
+
     async function onSubmit(data) {
 
 
@@ -380,6 +381,7 @@ function CustomerOrder(CustomerUpdatePage) {
                                     pathname: `/customerOrderItem`,
                                     state: {
                                         item: item,
+                                        status: orderIndividual.status
 
                                     }
                                 }
@@ -405,6 +407,10 @@ function CustomerOrder(CustomerUpdatePage) {
 
 
                         <span>
+
+    <div>
+        {orderIndividual.status==='open'&&
+
     <button
 
         onClick={() => deleteItem(item.itemname)}
@@ -412,7 +418,8 @@ function CustomerOrder(CustomerUpdatePage) {
     >
         Delete
     </button>
-
+        }
+</div>
 
 
 </span>
